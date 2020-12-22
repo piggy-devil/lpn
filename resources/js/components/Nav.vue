@@ -30,7 +30,7 @@
                     <input
                         type="text"
                         name="search"
-                        class="rounded-full pl-8 w-56 bg-gray-200 h-8 focus:outline-none focus:shadow-inner text-sm"
+                        class="rounded-full pl-8 w-56 bg-gray-200 h-8 focus:outline-none focus:ring text-sm"
                         placeholder="Search"
                     />
                 </div>

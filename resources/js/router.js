@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import Start from './views/Start.vue'
-import App from './components/App'
+import NewsFeed from './views/NewsFeed'
 
 const routes = [
-    { path: "/", name: 'home', component: App },
+    { path: "/", name: 'home', component: NewsFeed },
   ];
   
   const router = createRouter({
