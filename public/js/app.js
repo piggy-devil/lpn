@@ -16377,6 +16377,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var state = (0,vue__WEBPACK_IMPORTED_MODULE_4__.reactive)({
       posts: []
     });
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_4__.ref)(true);
     (0,vue__WEBPACK_IMPORTED_MODULE_4__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var _yield$axios$get, data;
 
@@ -16384,23 +16385,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              _context.prev = 0;
+              _context.next = 3;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_3__.default.get("/api/posts");
 
-            case 2:
+            case 3:
               _yield$axios$get = _context.sent;
               data = _yield$axios$get.data;
               state.posts = data.data;
+              loading.value = false;
+              _context.next = 13;
+              break;
 
-            case 5:
+            case 9:
+              _context.prev = 9;
+              _context.t0 = _context["catch"](0);
+              console.log("Unable to fetch posts");
+              loading.value = false;
+
+            case 13:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
-    })));
+      }, _callee, null, [[0, 9]]);
+    }))); // onMounted(async () => {
+    //   const { data } = await axios.get(`/api/posts`)
+    //   state.posts = data.data;
+    // });
+
     return {
-      state: state
+      state: state,
+      loading: loading
     };
   },
   name: "NewsFeed",
@@ -16412,7 +16428,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       posts: []
     };
-  } // mounted() { 
+  } // mounted() {
   //     axios.get('/api/posts')
   //         .then(res => {
   //             this.posts = res.data;
@@ -16808,12 +16824,17 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "flex flex-col items-center py-4"
 };
+var _hoisted_2 = {
+  key: 0
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_NewPost = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NewPost");
 
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NewPost), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.state.posts, function (post) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NewPost), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_2, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.state.posts, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.data.post_id,
       post: post

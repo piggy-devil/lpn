@@ -1,43 +1,62 @@
 <template>
-  <div class="flex flex-col items-center py-4">
-      <NewPost />
+    <div class="flex flex-col items-center py-4">
+        <NewPost />
 
-      <Post v-for="post in state.posts" :key="post.data.post_id" :post="post"/>
-  </div>
+        <p v-if="loading">Loading posts...</p>
+        <Post
+            v-else
+            v-for="post in state.posts"
+            :key="post.data.post_id"
+            :post="post"
+        />
+    </div>
 </template>
 
 <script>
-import NewPost from '../components/NewPost'
-import Post from '../components/Post'
+import NewPost from "../components/NewPost";
+import Post from "../components/Post";
 import axios from "../plugins/axios";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 export default {
     setup() {
-    const state = reactive({
-      posts: [],
-    });
+        const state = reactive({
+            posts: [],
+        });
+        const loading = ref(true);
 
-    onMounted(async () => {
-      const { data } = await axios.get(`/api/posts`);
-      state.posts = data.data;
-    });
+        onMounted(async () => {
+            try {
+                const { data } = await axios.get(`/api/posts`);
+                state.posts = data.data;
+                loading.value = false;
+            } catch (err) {
+                console.log("Unable to fetch posts");
+                loading.value = false;
+            }
+        });
 
-    return { state };
-  },
+        // onMounted(async () => {
+        //   const { data } = await axios.get(`/api/posts`)
+        //   state.posts = data.data;
+        // });
+
+        return { state, loading };
+    },
     name: "NewsFeed",
 
     components: {
-        NewPost, Post
+        NewPost,
+        Post,
     },
 
     data: () => {
         return {
             posts: [],
-        }
+        };
     },
 
-    // mounted() { 
+    // mounted() {
     //     axios.get('/api/posts')
     //         .then(res => {
     //             this.posts = res.data;
@@ -46,9 +65,7 @@ export default {
     //             console.log('Unable to fetch posts');
     //         });
     // }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
