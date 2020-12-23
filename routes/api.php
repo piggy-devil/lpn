@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->group(function(){
+// Route::get('/posts', [App\Http\Controllers\PostController::class, 'index']);
+Route::middleware('api')->group(function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

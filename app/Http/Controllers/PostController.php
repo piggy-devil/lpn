@@ -9,9 +9,18 @@ use App\Http\Resources\Post as ResourcesPost;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        // parent::__construct();
+        $this->middleware('auth:api')->except(['index']);
+    }
+
     public function index()
     {
-        return new PostCollection(request()->user()->posts);
+        $user = Post::with('user')->get();
+        // dd($user);
+        return new PostCollection($user);
+        // return response()->json(['posts' => Post::all()]);
     }
 
     public function store()
