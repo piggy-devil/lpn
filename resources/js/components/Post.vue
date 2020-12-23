@@ -11,16 +11,16 @@
                 </div>
                 <div class="ml-6">
                     <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
-                    <div class="text-sm font-gray-600">12 mins</div>
+                    <div class="text-sm font-gray-600">{{ post.data.attributes.posted_at }}</div>
                 </div>
             </div>
             <div class="mt-4">
                 <p>{{ post.data.attributes.body }}</p>
             </div>
         </div>
-        <div class="w-full" v-if="true">
+        <div class="w-full" v-if="post.data.attributes.image">
             <img
-                src="https://image.shutterstock.com/image-photo/colorful-hot-air-balloons-flying-260nw-1033306540.jpg"
+                :src="post.data.attributes.image"
                 alt="post image"
                 class="w-full"
             />

@@ -20,6 +20,7 @@ class PostController extends Controller
         $user = Post::with('user')->get();
         // dd($user);
         return new PostCollection($user);
+        // return new PostCollection(Post::all());
         // return response()->json(['posts' => Post::all()]);
     }
 
