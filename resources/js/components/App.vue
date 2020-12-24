@@ -13,22 +13,31 @@
 <script>
 import Nav from "./Nav";
 import Sidebar from "./Sidebar";
-import { useStore } from 'vuex';
-import { onMounted } from "vue";
+import { useStore } from "vuex";
+import { onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
     name: "App",
 
     setup() {
         const store = useStore();
+        const route = useRoute();
 
-        onMounted( () => {
-            store.dispatch('fetchAuthUser');
+        store.dispatch('setPageTitle', route.meta.title);
+
+        onMounted(() => {
+            store.dispatch("fetchAuthUser");
+        });
+
+        watch(route, (to, from) => {
+            store.dispatch("setPageTitle", to.meta.title);
         });
     },
 
     components: {
-        Nav, Sidebar
+        Nav,
+        Sidebar,
     },
 
     // mounted() {

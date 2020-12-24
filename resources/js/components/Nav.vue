@@ -110,24 +110,6 @@ export default {
 
         return { authUser };
     },
-
-    // computed: {
-    //     ...mapGetters({
-    //         authUser: 'authUser'
-    //     })
-    // }
-
-    // mounted() {
-    //     axios.get('/api/auth-user')
-    //         .then(res => {
-    //             console.log(res.data);
-    //             this.user = res.data;
-    //             loadding = false;
-    //         })
-    //         .catch(error => {
-    //             console.log('Unable to fetch auth user');
-    //         });
-    // }
 };
 </script>
 
