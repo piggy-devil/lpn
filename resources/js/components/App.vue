@@ -13,12 +13,27 @@
 <script>
 import Nav from "./Nav";
 import Sidebar from "./Sidebar";
+import { useStore } from 'vuex';
+import { onMounted } from "vue";
+
 export default {
     name: "App",
+
+    setup() {
+        const store = useStore();
+
+        onMounted( () => {
+            store.dispatch('fetchAuthUser');
+        });
+    },
 
     components: {
         Nav, Sidebar
     },
+
+    // mounted() {
+    //     this.$store.dispatch('fetchAuthUser');
+    // }
 };
 </script>
 
