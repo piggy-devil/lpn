@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/posts', [App\Http\Controllers\PostController::class, 'index']);
 Route::middleware('auth:api')->group(function(){
+    
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
     // });
@@ -34,5 +35,7 @@ Route::middleware('auth:api')->group(function(){
         '/users' => 'App\Http\Controllers\UserController',
 
         '/users/{user}/posts' => 'App\Http\Controllers\UserPostController',
+        '/friend-request' => 'App\Http\Controllers\FriendRequestController',
+        '/friend-request-response' => 'App\Http\Controllers\FriendRequestResponseController',
     ]);
 });
