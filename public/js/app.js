@@ -16284,6 +16284,9 @@ __webpack_require__.r(__webpack_exports__);
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.watch)(route, function (to, from) {
       store.dispatch("setPageTitle", to.meta.title);
     });
+    return {
+      route: route
+    };
   },
   components: {
     Nav: _Nav__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -16354,9 +16357,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+// import { useRoute } from "vue-router";
+// import { useStore } from "vuex";
+// import { onMounted, computed } from "vue";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Post",
-  props: ['post']
+  props: ['post'] // setup() {
+  //     const route = useRoute();
+  //     const store = useStore();
+  //     const posts = computed(() => {
+  //         return store.getters.posts;
+  //     });
+  //     const postStatus = computed(() => {
+  //         return store.getters.postStatus;
+  //     });
+  //     onMounted(async () => {
+  //         await store.dispatch("fetchPosts", route.params.userId);
+  //     });
+  //     return { posts, postStatus, route };
+  // },
+
 });
 
 /***/ }),
@@ -16393,8 +16413,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_NewPost__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NewPost */ "./resources/js/components/NewPost.vue");
 /* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Post */ "./resources/js/components/Post.vue");
-/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../plugins/axios */ "./resources/js/plugins/axios.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -16405,72 +16426,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  setup: function setup() {
-    var state = (0,vue__WEBPACK_IMPORTED_MODULE_4__.reactive)({
-      posts: []
-    });
-    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_4__.ref)(true);
-    (0,vue__WEBPACK_IMPORTED_MODULE_4__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var _yield$axios$get, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_3__.default.get("/api/posts");
-
-            case 3:
-              _yield$axios$get = _context.sent;
-              data = _yield$axios$get.data;
-              state.posts = data.data;
-              loading.value = false;
-              _context.next = 13;
-              break;
-
-            case 9:
-              _context.prev = 9;
-              _context.t0 = _context["catch"](0);
-              console.log("Unable to fetch posts");
-              loading.value = false;
-
-            case 13:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[0, 9]]);
-    }))); // onMounted(async () => {
-    //   const { data } = await axios.get(`/api/posts`)
-    //   state.posts = data.data;
-    // });
-
-    return {
-      state: state,
-      loading: loading
-    };
-  },
   name: "NewsFeed",
   components: {
     NewPost: _components_NewPost__WEBPACK_IMPORTED_MODULE_1__.default,
     Post: _components_Post__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  data: function data() {
-    return {
-      posts: []
-    };
-  } // mounted() {
-  //     axios.get('/api/posts')
-  //         .then(res => {
-  //             this.posts = res.data;
-  //         })
-  //         .catch(error => {
-  //             console.log('Unable to fetch posts');
-  //         });
-  // }
+  setup: function setup() {
+    var route = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRoute)();
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_5__.useStore)();
+    var postAlls = (0,vue__WEBPACK_IMPORTED_MODULE_3__.computed)(function () {
+      return store.getters.postAlls;
+    });
+    var postAllStatus = (0,vue__WEBPACK_IMPORTED_MODULE_3__.computed)(function () {
+      return store.getters.postAllStatus;
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return store.dispatch("fetchAllPosts");
 
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })));
+    return {
+      postAlls: postAlls,
+      postAllStatus: postAllStatus
+    };
+  }
 });
 
 /***/ }),
@@ -16488,9 +16479,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../plugins/axios */ "./resources/js/plugins/axios.js");
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Post */ "./resources/js/components/Post.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -16498,142 +16490,84 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
- // How to use route interceptor inside the component
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Post: _components_Post__WEBPACK_IMPORTED_MODULE_2__.default
+  },
   setup: function setup() {
     var route = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRoute)();
-    var state = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
-      posts: [],
-      user: {}
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_4__.useStore)();
+    var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.user;
     });
-    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true);
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var _yield$axios$get, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+    var userStatus = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.userStatus;
+    });
+    var posts = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.posts;
+    });
+    var postStatus = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.postStatus;
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_2__.default.get('/api/users/' + route.params.userId);
+              _context.next = 2;
+              return store.dispatch("fetchUser", route.params.userId);
 
-            case 3:
-              _yield$axios$get = _context2.sent;
-              data = _yield$axios$get.data;
-              state.posts = data.data;
-              loading.value = false;
-              _context2.next = 13;
-              break;
+            case 2:
+              _context.next = 4;
+              return store.dispatch("fetchPosts", route.params.userId);
 
-            case 9:
-              _context2.prev = 9;
-              _context2.t0 = _context2["catch"](0);
-              console.log("Unable to fetch posts");
-              loading.value = false;
-
-            case 13:
-              ;
-
-              /*#__PURE__*/
-              _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-                var _yield$axios$get2, dat;
-
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-                  while (1) {
-                    switch (_context.prev = _context.next) {
-                      case 0:
-                        _context.next = 2;
-                        return _plugins_axios__WEBPACK_IMPORTED_MODULE_2__.default.get('/api/users/' + route.params.userId);
-
-                      case 2:
-                        _yield$axios$get2 = _context.sent;
-                        dat = _yield$axios$get2.dat;
-                        state.user = dat.data;
-
-                      case 5:
-                      case "end":
-                        return _context.stop();
-                    }
-                  }
-                }, _callee);
-              }));
-
-            case 15:
+            case 4:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2, null, [[0, 9]]);
-    }))); // In-component routing
-    // const router = useRouter();
-    // const route = useRoute();
-    // const state = reactive({
-    //     user: [],
-    //     posts: [],
-    // });
-    // const loading = ref(true);
-    // onMounted(async () => {
-    // try {
-    //     const { data } = await axios.get(
-    //         "/api/users/" + route.params.userId
-    //     );
-    //     state.user = data.data;
-    //     console.log(data.data);
-    // } catch (error) {
-    //     console.log("Unable to fetch the user from the server.");
-    // } finally {
-    // }
-    // try {
-    //     const { dataPosts } = await axios.get.get("/api/users/" + route.params.userId + "/posts");
-    //     console.log(dataPosts);
-    //     state.posts = dataPosts;
-    // } catch (error) {
-    //     console.log("Unable to fetch the user from the server.");
-    // } finally {
-    // }
-    // const { dUser } = await axios.get("/api/users/"+ route.params.userId);
-    // const { dPost } = await axios.get(`/api/users/`+ route.params.userId + `/post`);
-    // loading.value = false;
-    // console.log(dUser.data);
-    // state.user = dUser.data;
-    // state.posts = dPost.data;
-    // });
-
+      }, _callee);
+    })));
     return {
-      state: state,
-      route: route,
-      loading: loading
+      user: user,
+      userStatus: userStatus,
+      posts: posts,
+      postStatus: postStatus
     };
-  },
-  data: function data() {
-    return {
-      posts: [],
-      user: []
-    };
-  },
-  computed: {
-    datatest: function datatest() {
-      // return this.user.data.attributes.name;
-      return "muupa";
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
+  } // data: () => {
+  //     return {
+  //         posts: [],
+  //         user: [],
+  //     };
+  // },
+  // computed: {
+  //     datatest() {
+  //         // return this.user.data.attributes.name;
+  //         return "muupa";
+  //     },
+  // },
+  // mounted() {
+  //     axios
+  //         .get("/api/users/" + this.$route.params.userId)
+  //         .then((res) => {
+  //             this.user = res.data;
+  //         })
+  //         .catch((error) => {
+  //             console.log("Unable to fetch user");
+  //         });
+  //     axios
+  //         .get("/api/users/" + this.$route.params.userId + "/posts")
+  //         .then((res) => {
+  //             this.posts = res.data;
+  //         })
+  //         .catch((error) => {
+  //             console.log("Unable to fetch posts");
+  //         });
+  // },
 
-    _plugins_axios__WEBPACK_IMPORTED_MODULE_2__.default.get("/api/users/" + this.$route.params.userId).then(function (res) {
-      _this.user = res.data;
-    })["catch"](function (error) {
-      console.log("Unable to fetch user");
-    });
-    _plugins_axios__WEBPACK_IMPORTED_MODULE_2__.default.get("/api/users/" + this.$route.params.userId + "/posts").then(function (res) {
-      _this.posts = res.data;
-    })["catch"](function (error) {
-      console.log("Unable to fetch posts");
-    });
-  }
 });
 
 /***/ }),
@@ -16667,7 +16601,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_router_view = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-view");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Nav), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Sidebar), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view)])])]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Nav), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Sidebar), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view, {
+    key: $setup.route.fullPath
+  })])])]);
 }
 
 /***/ }),
@@ -16950,7 +16886,7 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 })]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "ml-2"
 }, "Like")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  "class": "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full  focus:outline-none"
+  "class": "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
@@ -17034,9 +16970,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NewPost), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_2, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NewPost), $setup.postAllStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_2, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.state.posts, function (post) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.postAlls.data, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.data.post_id,
       post: post
@@ -17098,13 +17034,43 @@ var _hoisted_6 = {
   key: 0
 };
 var _hoisted_7 = {
-  key: 1,
   "class": "text-2xl text-gray-100 ml-4"
 };
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  "class": "py-1 px-3 bg-gray-400 rounded"
+}, " Add Friend ")], -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
+  key: 0
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_6, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.state.posts.attributes.name), 1
+  var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, $setup.userStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_6, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p v-else class=\"text-2xl text-gray-100 ml-4\">{{ state.posts.attributes.name }}</p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.data.attributes.name), 1
   /* TEXT */
-  ))])])]);
+  )], 64
+  /* STABLE_FRAGMENT */
+  ))]), _hoisted_8]), $setup.postStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_9, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else>\n            <div v-for=\"post in posts.data\" :key=\"post.data.post_id\">\n                {{ post.data.attributes.body }}\n                {{ post.data.post_id }}\n                {{ post.data.attributes.posted_by.data.attributes.name }}\n            </div>\n        </div> "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.posts.data, function (post) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
+      key: post.data.post_id,
+      post: post
+    }, null, 8
+    /* PROPS */
+    , ["post"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 64
+  /* STABLE_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Post v-else></Post> ")]);
 }
 
 /***/ }),
@@ -17145,16 +17111,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
 /* harmony import */ var _modules_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/user */ "./resources/js/components/store/modules/user.js");
 /* harmony import */ var _modules_title__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/title */ "./resources/js/components/store/modules/title.js");
+/* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/components/store/modules/profile.js");
 
 
 
-var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({
+
+var store = (0,vuex__WEBPACK_IMPORTED_MODULE_3__.createStore)({
   modules: {
     User: _modules_user__WEBPACK_IMPORTED_MODULE_0__.default,
-    Title: _modules_title__WEBPACK_IMPORTED_MODULE_1__.default
+    Title: _modules_title__WEBPACK_IMPORTED_MODULE_1__.default,
+    Profile: _modules_profile__WEBPACK_IMPORTED_MODULE_2__.default
   } //   state() {
   //     return {
   //       isLoggedIn: false,
@@ -17176,6 +17145,188 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({
 
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+/***/ }),
+
+/***/ "./resources/js/components/store/modules/profile.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/store/modules/profile.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/axios */ "./resources/js/plugins/axios.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  user: null,
+  userStatus: true,
+  posts: null,
+  postStatus: true,
+  postAlls: null,
+  postAllStatus: true
+};
+var getters = {
+  user: function user(state) {
+    return state.user;
+  },
+  userStatus: function userStatus(state) {
+    return state.userStatus;
+  },
+  posts: function posts(state) {
+    return state.posts;
+  },
+  postStatus: function postStatus(state) {
+    return state.postStatus;
+  },
+  postAlls: function postAlls(state) {
+    return state.postAlls;
+  },
+  postAllStatus: function postAllStatus(state) {
+    return state.postAllStatus;
+  }
+};
+var actions = {
+  fetchUser: function fetchUser(_ref, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, state, _yield$axios$get, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit, state = _ref.state;
+              _context.prev = 1;
+              _context.next = 4;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId);
+
+            case 4:
+              _yield$axios$get = _context.sent;
+              data = _yield$axios$get.data;
+              commit('setUser', data);
+              commit('setUserStatus', false);
+              _context.next = 13;
+              break;
+
+            case 10:
+              _context.prev = 10;
+              _context.t0 = _context["catch"](1);
+              console.log("Unable to fetch user");
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[1, 10]]);
+    }))();
+  },
+  fetchPosts: function fetchPosts(_ref2, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var commit, state, _yield$axios$get2, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, state = _ref2.state;
+              _context2.prev = 1;
+              _context2.next = 4;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId + '/posts');
+
+            case 4:
+              _yield$axios$get2 = _context2.sent;
+              data = _yield$axios$get2.data;
+              commit('setPosts', data);
+              commit('setPostStatus', false);
+              _context2.next = 13;
+              break;
+
+            case 10:
+              _context2.prev = 10;
+              _context2.t0 = _context2["catch"](1);
+              console.log("Unable to fetch posts");
+
+            case 13:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[1, 10]]);
+    }))();
+  },
+  fetchAllPosts: function fetchAllPosts(_ref3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit, state, _yield$axios$get3, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit, state = _ref3.state;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/posts/');
+
+            case 4:
+              _yield$axios$get3 = _context3.sent;
+              data = _yield$axios$get3.data;
+              commit('setAllPosts', data);
+              commit('setAllPostStatus', false);
+              _context3.next = 13;
+              break;
+
+            case 10:
+              _context3.prev = 10;
+              _context3.t0 = _context3["catch"](1);
+              console.log("Unable to fetch all posts");
+
+            case 13:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, null, [[1, 10]]);
+    }))();
+  }
+};
+var mutations = {
+  setUser: function setUser(state, user) {
+    state.user = user;
+  },
+  setUserStatus: function setUserStatus(state, status) {
+    state.userStatus = status;
+  },
+  setPosts: function setPosts(state, posts) {
+    state.posts = posts;
+  },
+  setPostStatus: function setPostStatus(state, status) {
+    state.postStatus = status;
+  },
+  setAllPosts: function setAllPosts(state, postAlls) {
+    state.postAlls = postAlls;
+  },
+  setAllPostStatus: function setAllPostStatus(state, postAllStatus) {
+    state.postAllStatus = postAllStatus;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 
@@ -17260,31 +17411,30 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit, state = _ref.state;
-              _context.next = 3;
+              _context.prev = 1;
+              _context.next = 4;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/auth-user');
 
-            case 3:
+            case 4:
               _yield$axios$get = _context.sent;
               data = _yield$axios$get.data;
               commit('setAuthUser', data);
+              _context.next = 12;
+              break;
 
-            case 6:
+            case 9:
+              _context.prev = 9;
+              _context.t0 = _context["catch"](1);
+              console.log('Unable to fetch auth user');
+
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[1, 9]]);
     }))();
-  } // fetchAuthUser({commit, state}) {
-  //     axios.get('/api/auth-user')
-  //         .then( res => {
-  //             commit('setAuthUser', res.data);
-  //         })
-  //         .catch(error => {
-  //             console.log('Unable to fetch auth user');
-  //         })
-  // }
-
+  }
 };
 var mutations = {
   setAuthUser: function setAuthUser(state, user) {

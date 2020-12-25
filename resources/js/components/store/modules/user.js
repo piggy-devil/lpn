@@ -13,18 +13,13 @@ const getters = {
 
 const actions = {
     async fetchAuthUser({commit, state}) {
-        const { data } = await axios.get('/api/auth-user');
-        commit('setAuthUser', data);
+        try {
+            const { data } = await axios.get('/api/auth-user');
+            commit('setAuthUser', data);
+        } catch (err) {
+            console.log('Unable to fetch auth user');
+        }
     }
-    // fetchAuthUser({commit, state}) {
-    //     axios.get('/api/auth-user')
-    //         .then( res => {
-    //             commit('setAuthUser', res.data);
-    //         })
-    //         .catch(error => {
-    //             console.log('Unable to fetch auth user');
-    //         })
-    // }
 };
 const mutations = {
     setAuthUser(state, user) {

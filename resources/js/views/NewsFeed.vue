@@ -2,10 +2,10 @@
     <div class="flex flex-col items-center py-4">
         <NewPost />
 
-        <p v-if="loading">Loading posts...</p>
+        <p v-if="postAllStatus">Loading posts...</p>
         <Post
             v-else
-            v-for="post in state.posts"
+            v-for="post in postAlls.data"
             :key="post.data.post_id"
             :post="post"
         />
@@ -15,56 +15,34 @@
 <script>
 import NewPost from "../components/NewPost";
 import Post from "../components/Post";
-import axios from "../plugins/axios";
-import { onMounted, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import { onMounted, computed } from "vue";
 
 export default {
-    setup() {
-        const state = reactive({
-            posts: [],
-        });
-        const loading = ref(true);
-
-        onMounted(async () => {
-            try {
-                const { data } = await axios.get(`/api/posts`);
-                state.posts = data.data;
-                loading.value = false;
-            } catch (err) {
-                console.log("Unable to fetch posts");
-                loading.value = false;
-            }
-        });
-
-        // onMounted(async () => {
-        //   const { data } = await axios.get(`/api/posts`)
-        //   state.posts = data.data;
-        // });
-
-        return { state, loading };
-    },
     name: "NewsFeed",
 
     components: {
         NewPost,
         Post,
     },
+    setup() {
+        const route = useRoute();
+        const store = useStore();
 
-    data: () => {
-        return {
-            posts: [],
-        };
+        const postAlls = computed(() => {
+            return store.getters.postAlls;
+        });
+        const postAllStatus = computed(() => {
+            return store.getters.postAllStatus;
+        });
+
+        onMounted(async () => {
+            await store.dispatch("fetchAllPosts");
+        });
+
+        return { postAlls, postAllStatus };
     },
-
-    // mounted() {
-    //     axios.get('/api/posts')
-    //         .then(res => {
-    //             this.posts = res.data;
-    //         })
-    //         .catch(error => {
-    //             console.log('Unable to fetch posts');
-    //         });
-    // }
 };
 </script>
 

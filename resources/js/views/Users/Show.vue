@@ -18,119 +18,106 @@
                         class="object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg"
                     />
                 </div>
-                <p v-if="loading">Loading posts...</p>
-                <p v-else class="text-2xl text-gray-100 ml-4">{{ state.posts.attributes.name }}</p>
+                <p v-if="userStatus">Loading posts...</p>
+                <!-- <p v-else class="text-2xl text-gray-100 ml-4">{{ state.posts.attributes.name }}</p> -->
+                <p v-else class="text-2xl text-gray-100 ml-4">
+                    {{ user.data.attributes.name }}
+                </p>
+            </div>
+
+            <div
+                class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
+            >
+                <button class="py-1 px-3 bg-gray-400 rounded">
+                    Add Friend
+                </button>
             </div>
         </div>
+        <p v-if="postStatus">Loading posts...</p>
+        <!-- <div v-else>
+            <div v-for="post in posts.data" :key="post.data.post_id">
+                {{ post.data.attributes.body }}
+                {{ post.data.post_id }}
+                {{ post.data.attributes.posted_by.data.attributes.name }}
+            </div>
+        </div> -->
+        <Post
+            v-else
+            v-for="post in posts.data"
+            :key="post.data.post_id"
+            :post="post"
+        />
+        <!-- <Post v-else></Post> -->
     </div>
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "vue";
-import axios from "../../plugins/axios";
-
-// How to use route interceptor inside the component
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import { onMounted, computed } from "vue";
+import Post from "../../components/Post";
 
 export default {
+    components: {
+        Post,
+    },
     setup() {
         const route = useRoute();
-        const state = reactive({
-            posts: [],
-            user: {},
+        const store = useStore();
+
+        const user = computed(() => {
+            return store.getters.user;
         });
-        const loading = ref(true);
+        const userStatus = computed(() => {
+            return store.getters.userStatus;
+        });
+
+        const posts = computed(() => {
+            return store.getters.posts;
+        });
+        const postStatus = computed(() => {
+            return store.getters.postStatus;
+        });
 
         onMounted(async () => {
-            try {
-                const { data } = await axios.get('/api/users/' + route.params.userId);
-                state.posts = data.data;
-                loading.value = false;
-            } catch (err) {
-                console.log("Unable to fetch posts");
-                loading.value = false;
-            };
-
-            async () => {
-                const { dat } = await axios.get('/api/users/' + route.params.userId);
-                state.user = dat.data;
-            }
+            await store.dispatch("fetchUser", route.params.userId);
+            await store.dispatch("fetchPosts", route.params.userId);
         });
-        // In-component routing
-        // const router = useRouter();
-        // const route = useRoute();
-        // const state = reactive({
-        //     user: [],
-        //     posts: [],
-        // });
-        // const loading = ref(true);
 
-        // onMounted(async () => {
-            // try {
-            //     const { data } = await axios.get(
-            //         "/api/users/" + route.params.userId
-            //     );
-            //     state.user = data.data;
-            //     console.log(data.data);
-
-            // } catch (error) {
-            //     console.log("Unable to fetch the user from the server.");
-            // } finally {
-                
-            // }
-            // try {
-            //     const { dataPosts } = await axios.get.get("/api/users/" + route.params.userId + "/posts");
-            //     console.log(dataPosts);
-            //     state.posts = dataPosts;
-
-            // } catch (error) {
-            //     console.log("Unable to fetch the user from the server.");
-            // } finally {
-                
-            // }
-            // const { dUser } = await axios.get("/api/users/"+ route.params.userId);
-            // const { dPost } = await axios.get(`/api/users/`+ route.params.userId + `/post`);
-            // loading.value = false;
-            // console.log(dUser.data);
-            // state.user = dUser.data;
-            // state.posts = dPost.data;
-
-        // });
-
-        return { state, route, loading };
+        return { user, userStatus, posts, postStatus };
     },
-    data: () => {
-        return {
-            posts: [],
-            user: [],
-        };
-    },
+    // data: () => {
+    //     return {
+    //         posts: [],
+    //         user: [],
+    //     };
+    // },
 
-    computed: {
-        datatest() {
-            // return this.user.data.attributes.name;
-            return "muupa";
-        },
-    },
+    // computed: {
+    //     datatest() {
+    //         // return this.user.data.attributes.name;
+    //         return "muupa";
+    //     },
+    // },
 
-    mounted() {
-        axios
-            .get("/api/users/" + this.$route.params.userId)
-            .then((res) => {
-                this.user = res.data;
-            })
-            .catch((error) => {
-                console.log("Unable to fetch user");
-            });
-        axios
-            .get("/api/users/" + this.$route.params.userId + "/posts")
-            .then((res) => {
-                this.posts = res.data;
-            })
-            .catch((error) => {
-                console.log("Unable to fetch posts");
-            });
-    },
+    // mounted() {
+    //     axios
+    //         .get("/api/users/" + this.$route.params.userId)
+    //         .then((res) => {
+    //             this.user = res.data;
+    //         })
+    //         .catch((error) => {
+    //             console.log("Unable to fetch user");
+    //         });
+    //     axios
+    //         .get("/api/users/" + this.$route.params.userId + "/posts")
+    //         .then((res) => {
+    //             this.posts = res.data;
+    //         })
+    //         .catch((error) => {
+    //             console.log("Unable to fetch posts");
+    //         });
+    // },
 };
 </script>
 
