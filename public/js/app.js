@@ -16512,6 +16512,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var postStatus = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.getters.postStatus;
     });
+    var friendButtonText = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.friendButtonText;
+    });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
@@ -16535,39 +16538,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user: user,
       userStatus: userStatus,
       posts: posts,
-      postStatus: postStatus
+      postStatus: postStatus,
+      store: store,
+      route: route,
+      friendButtonText: friendButtonText
     };
-  } // data: () => {
-  //     return {
-  //         posts: [],
-  //         user: [],
-  //     };
-  // },
-  // computed: {
-  //     datatest() {
-  //         // return this.user.data.attributes.name;
-  //         return "muupa";
-  //     },
-  // },
-  // mounted() {
-  //     axios
-  //         .get("/api/users/" + this.$route.params.userId)
-  //         .then((res) => {
-  //             this.user = res.data;
-  //         })
-  //         .catch((error) => {
-  //             console.log("Unable to fetch user");
-  //         });
-  //     axios
-  //         .get("/api/users/" + this.$route.params.userId + "/posts")
-  //         .then((res) => {
-  //             this.posts = res.data;
-  //         })
-  //         .catch((error) => {
-  //             console.log("Unable to fetch posts");
-  //         });
-  // },
-
+  }
 });
 
 /***/ }),
@@ -17034,32 +17010,31 @@ var _hoisted_6 = {
   key: 0
 };
 var _hoisted_7 = {
+  key: 1,
   "class": "text-2xl text-gray-100 ml-4"
 };
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_8 = {
   "class": "absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  "class": "py-1 px-3 bg-gray-400 rounded"
-}, " Add Friend ")], -1
-/* HOISTED */
-);
-
+};
 var _hoisted_9 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, $setup.userStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_6, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p v-else class=\"text-2xl text-gray-100 ml-4\">{{ state.posts.attributes.name }}</p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.data.attributes.name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, $setup.userStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_6, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.data.attributes.name), 1
   /* TEXT */
-  )], 64
-  /* STABLE_FRAGMENT */
-  ))]), _hoisted_8]), $setup.postStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_9, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [$setup.friendButtonText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+    key: 0,
+    "class": "py-1 px-3 bg-gray-400 rounded",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.store.dispatch('sendFriendRequest', $setup.route.params.userId);
+    })
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.friendButtonText), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $setup.postStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_9, "Loading posts...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else>\n            <div v-for=\"post in posts.data\" :key=\"post.data.post_id\">\n                {{ post.data.attributes.body }}\n                {{ post.data.post_id }}\n                {{ post.data.attributes.posted_by.data.attributes.name }}\n            </div>\n        </div> "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.posts.data, function (post) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.posts.data, function (post) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
       key: post.data.post_id,
       post: post
@@ -17068,9 +17043,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["post"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))], 64
-  /* STABLE_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Post v-else></Post> ")]);
+  ))]);
 }
 
 /***/ }),
@@ -17175,7 +17148,8 @@ var state = {
   posts: null,
   postStatus: true,
   postAlls: null,
-  postAllStatus: true
+  postAllStatus: true,
+  friendButtonText: null
 };
 var getters = {
   user: function user(state) {
@@ -17195,18 +17169,24 @@ var getters = {
   },
   postAllStatus: function postAllStatus(state) {
     return state.postAllStatus;
+  },
+  friendButtonText: function friendButtonText(state) {
+    return state.friendButtonText;
+  },
+  friendship: function friendship(state) {
+    return state.user.data.attributes.friendship;
   }
 };
 var actions = {
   fetchUser: function fetchUser(_ref, userId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, state, _yield$axios$get, data;
+      var commit, dispatch, _yield$axios$get, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              commit = _ref.commit, state = _ref.state;
+              commit = _ref.commit, dispatch = _ref.dispatch;
               _context.prev = 1;
               _context.next = 4;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId);
@@ -17216,20 +17196,21 @@ var actions = {
               data = _yield$axios$get.data;
               commit('setUser', data);
               commit('setUserStatus', false);
-              _context.next = 13;
+              dispatch('setFriendButton');
+              _context.next = 14;
               break;
 
-            case 10:
-              _context.prev = 10;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](1);
               console.log("Unable to fetch user");
 
-            case 13:
+            case 14:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 10]]);
+      }, _callee, null, [[1, 11]]);
     }))();
   },
   fetchPosts: function fetchPosts(_ref2, userId) {
@@ -17299,6 +17280,87 @@ var actions = {
         }
       }, _callee3, null, [[1, 10]]);
     }))();
+  },
+  sendFriendRequest: function sendFriendRequest(_ref4, friendId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var commit, state, _yield$axios$post, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit, state = _ref4.state;
+              _context4.next = 3;
+              return commit('setButtonText', 'Loading');
+
+            case 3:
+              _context4.prev = 3;
+              _context4.next = 6;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request', {
+                'friend_id': friendId
+              });
+
+            case 6:
+              _yield$axios$post = _context4.sent;
+              data = _yield$axios$post.data;
+              _context4.next = 10;
+              return commit('setButtonText', 'Pending Friend Request');
+
+            case 10:
+              _context4.next = 16;
+              break;
+
+            case 12:
+              _context4.prev = 12;
+              _context4.t0 = _context4["catch"](3);
+              _context4.next = 16;
+              return commit('setButtonText', 'Add Friend');
+
+            case 16:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[3, 12]]);
+    }))();
+  },
+  setFriendButton: function setFriendButton(_ref5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit, getters;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit, getters = _ref5.getters;
+
+              if (!(getters.friendship === null)) {
+                _context5.next = 6;
+                break;
+              }
+
+              _context5.next = 4;
+              return commit('setButtonText', 'Add Friend');
+
+            case 4:
+              _context5.next = 9;
+              break;
+
+            case 6:
+              if (!(getters.friendship.data.attributes.confirmed_at === null)) {
+                _context5.next = 9;
+                break;
+              }
+
+              _context5.next = 9;
+              return commit('setButtonText', 'Pending Friend Request');
+
+            case 9:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
   }
 };
 var mutations = {
@@ -17319,6 +17381,9 @@ var mutations = {
   },
   setAllPostStatus: function setAllPostStatus(state, postAllStatus) {
     state.postAllStatus = postAllStatus;
+  },
+  setButtonText: function setButtonText(state, text) {
+    state.friendButtonText = text;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

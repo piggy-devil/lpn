@@ -19,7 +19,6 @@
                     />
                 </div>
                 <p v-if="userStatus">Loading posts...</p>
-                <!-- <p v-else class="text-2xl text-gray-100 ml-4">{{ state.posts.attributes.name }}</p> -->
                 <p v-else class="text-2xl text-gray-100 ml-4">
                     {{ user.data.attributes.name }}
                 </p>
@@ -28,26 +27,19 @@
             <div
                 class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
             >
-                <button class="py-1 px-3 bg-gray-400 rounded">
-                    Add Friend
+                <button v-if="friendButtonText" class="py-1 px-3 bg-gray-400 rounded"
+                    @click="store.dispatch('sendFriendRequest', route.params.userId)">
+                    {{friendButtonText}}
                 </button>
             </div>
         </div>
         <p v-if="postStatus">Loading posts...</p>
-        <!-- <div v-else>
-            <div v-for="post in posts.data" :key="post.data.post_id">
-                {{ post.data.attributes.body }}
-                {{ post.data.post_id }}
-                {{ post.data.attributes.posted_by.data.attributes.name }}
-            </div>
-        </div> -->
         <Post
             v-else
             v-for="post in posts.data"
             :key="post.data.post_id"
             :post="post"
         />
-        <!-- <Post v-else></Post> -->
     </div>
 </template>
 
@@ -79,45 +71,17 @@ export default {
             return store.getters.postStatus;
         });
 
+        const friendButtonText = computed(() => {
+            return store.getters.friendButtonText;
+        });
+
         onMounted(async () => {
             await store.dispatch("fetchUser", route.params.userId);
             await store.dispatch("fetchPosts", route.params.userId);
         });
 
-        return { user, userStatus, posts, postStatus };
+        return { user, userStatus, posts, postStatus, store, route, friendButtonText };
     },
-    // data: () => {
-    //     return {
-    //         posts: [],
-    //         user: [],
-    //     };
-    // },
-
-    // computed: {
-    //     datatest() {
-    //         // return this.user.data.attributes.name;
-    //         return "muupa";
-    //     },
-    // },
-
-    // mounted() {
-    //     axios
-    //         .get("/api/users/" + this.$route.params.userId)
-    //         .then((res) => {
-    //             this.user = res.data;
-    //         })
-    //         .catch((error) => {
-    //             console.log("Unable to fetch user");
-    //         });
-    //     axios
-    //         .get("/api/users/" + this.$route.params.userId + "/posts")
-    //         .then((res) => {
-    //             this.posts = res.data;
-    //         })
-    //         .catch((error) => {
-    //             console.log("Unable to fetch posts");
-    //         });
-    // },
 };
 </script>
 
