@@ -5,35 +5,20 @@ const state = {
     userStatus: null,
     posts: null,
     postsStatus: null,
-    postAlls: null,
-    postAllStatus: true,
-    // friendButtonText: null,
 };
 
 const getters = {
     user: state => {
         return state.user;
     },
-    userStatus: state => {
-        return state.userStatus;
+    posts: state => {
+        return state.posts;
     },
     status: state => {
         return {
             user: state.userStatus,
             posts: state.postsStatus
         }
-    },
-    posts: state => {
-        return state.posts;
-    },
-    postStatus: state => {
-        return state.postStatus;
-    },
-    postAlls: state => {
-        return state.postAlls;
-    },
-    postAllStatus: state => {
-        return state.postAllStatus;
     },
     // friendButtonText: state => {
     //     return state.friendButtonText;
@@ -83,15 +68,6 @@ const actions = {
         } catch (err) {
             console.log("Unable to fetch user posts");
             commit('setPostsStatus', 'error');
-        }
-    },
-    async fetchAllPosts({commit, state}) {
-        try {
-            const { data } = await axios.get('/api/posts/');
-            commit('setAllPosts', data);
-            commit('setAllPostStatus', false);
-        } catch (err) {
-            console.log("Unable to fetch all posts");
         }
     },
     async sendFriendRequest({commit, getters}, friendId) {
@@ -156,12 +132,6 @@ const mutations = {
     },
     setPostsStatus(state, status) {
         state.postsStatus = status;
-    },
-    setAllPosts(state, postAlls) {
-        state.postAlls = postAlls;
-    },
-    setAllPostStatus(state, postAllStatus) {
-        state.postAllStatus = postAllStatus;
     },
     setButtonText(state, text) {
         state.friendButtonText = text;

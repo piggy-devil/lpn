@@ -2,10 +2,10 @@
     <div class="flex flex-col items-center py-4">
         <NewPost />
 
-        <p v-if="postAllStatus">Loading posts...</p>
+        <p v-if="newsStatus === 'loading'">Loading posts...</p>
         <Post
-            v-else
-            v-for="post in postAlls.data"
+            v-else-if="posts"
+            v-for="post in posts.data"
             :key="post.data.post_id"
             :post="post"
         />
@@ -30,18 +30,18 @@ export default {
         const route = useRoute();
         const store = useStore();
 
-        const postAlls = computed(() => {
-            return store.getters.postAlls;
+        const posts = computed(() => {
+            return store.getters.newsPosts;
         });
-        const postAllStatus = computed(() => {
-            return store.getters.postAllStatus;
+        const newsStatus = computed(() => {
+            return store.getters.newsStatus;
         });
 
         onMounted(async () => {
-            await store.dispatch("fetchAllPosts");
+            await store.dispatch("fetchNewsPosts");
         });
 
-        return { postAlls, postAllStatus };
+        return { posts, newsStatus };
     },
 };
 </script>
