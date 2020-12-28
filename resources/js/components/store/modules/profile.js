@@ -2,12 +2,12 @@ import axios from "../../../plugins/axios";
 
 const state = {
     user: null,
-    userStatus: true,
+    userStatus: null,
     posts: null,
-    postStatus: true,
+    postsStatus: null,
     postAlls: null,
     postAllStatus: true,
-    friendButtonText: null,
+    // friendButtonText: null,
 };
 
 const getters = {
@@ -16,6 +16,12 @@ const getters = {
     },
     userStatus: state => {
         return state.userStatus;
+    },
+    status: state => {
+        return {
+            user: state.userStatus,
+            posts: state.postsStatus
+        }
     },
     posts: state => {
         return state.posts;
@@ -29,8 +35,24 @@ const getters = {
     postAllStatus: state => {
         return state.postAllStatus;
     },
-    friendButtonText: state => {
-        return state.friendButtonText;
+    // friendButtonText: state => {
+    //     return state.friendButtonText;
+    // },
+    friendButtonText: (state, getters, rootState) => {
+        if (getters.friendship === null) {
+            console.log('Add Friend');
+            return 'Add Friend';
+        } else if (getters.friendship.data.attributes.confirmed_at === null
+            && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
+            // && getters.friendship.data.attributes.friend_id !== getters.friendship.data.attributes.user_id) {
+                console.log('Pending Friend Request');
+            return 'Pending Friend Request'
+        } else if (getters.friendship.data.attributes.confirmed_at !== null) {
+            console.log('null');
+            return 'Friended';
+        }
+        console.log('Accept');
+        return 'Accept';
     },
     friendship: state => {
         return state.user.data.attributes.friendship;
@@ -39,20 +61,34 @@ const getters = {
 
 const actions = {
     async fetchUser({commit, dispatch}, userId) {
+        commit('setUserStatus', 'loading');
         try {
             const { data } = await axios.get('/api/users/' + userId);
             commit('setUser', data);
-            commit('setUserStatus', false);
-            dispatch('setFriendButton')
+            commit('setUserStatus', 'success');
+            // dispatch('setFriendButton', userId)
         } catch (err) {
             console.log("Unable to fetch user");
+            commit('setUserStatus', 'error');
+        }
+    },
+    async fetchUserPosts({commit, dispatch}, userId) {
+        commit('setPostsStatus', 'loading');
+
+        try {
+            const { data } = await axios.get('/api/users/' + userId + '/posts');
+            commit('setPosts', data);
+            commit('setPostsStatus', 'success');
+        } catch (err) {
+            console.log("Unable to fetch user posts");
+            commit('setPostsStatus', 'error');
         }
     },
     async fetchPosts({commit, state}, userId) {
         try {
             const { data } = await axios.get('/api/users/' + userId + '/posts');
             commit('setPosts', data);
-            commit('setPostStatus', false);
+            commit('setPostsStatus', false);
         } catch (err) {
             console.log("Unable to fetch posts");
         }
@@ -67,26 +103,56 @@ const actions = {
         }
     },
     async sendFriendRequest({commit, state}, friendId) {
-        await commit('setButtonText', 'Loading');
+        // await commit('setButtonText', 'Loading');
 
         try {
             const { data } = await axios.post('/api/friend-request', { 'friend_id': friendId })
-            await commit('setButtonText', 'Pending Friend Request');
+            console.log(data, 'sendFriendRequest');
+            await commit('setUserFriendship', data);
+            // await commit('setButtonText', 'Pending Friend Request');
+        } catch (err) {
+            // await commit('setButtonText', 'Add Friend');
+        }
+    },
+    async acceptFriendRequest({commit, state}, userId) {
+        // await commit('setButtonText', 'Loading');
+
+        try {
+            const { data } = await axios.post('/api/friend-request-response', { 'user_id': userId, 'status': 1 })
+            await commit('setUserFriendship', data);
+            // await commit('setButtonText', 'Pending Friend Request');
         } catch (err) {
             await commit('setButtonText', 'Add Friend');
         }
     },
-    async setFriendButton({commit, getters}) {
-        if (getters.friendship === null) {
-            await commit('setButtonText', 'Add Friend');
-        } else if (getters.friendship.data.attributes.confirmed_at === null) {
-            await commit('setButtonText', 'Pending Friend Request');
+    async ignoreFriendRequest({commit, state}, userId) {
+        // await commit('setButtonText', 'Loading');
+        console.log(userId, 'userId');
+        try {
+            await axios.delete('/api/friend-request-response/delete', { data: { 'user_id': userId } })
+            await commit('setUserFriendship', null);
+            // await commit('setButtonText', 'Pending Friend Request');
+        } catch (err) {
+            // await commit('setButtonText', 'Add Friend');
         }
-    }
+    },
+    // async setFriendButton({commit, getters}, userId) {
+    //     if (getters.friendship === null) {
+    //         await commit('setButtonText', 'Add Friend');
+    //     } else if (getters.friendship.data.attributes.confirmed_at === null 
+    //         && getters.friendship.data.attributes.friend_id !== userId) {
+    //         await commit('setButtonText', 'Pending Friend Request');
+    //     } else {
+    //         await commit('setButtonText', 'Accept');
+    //     }
+    // }
 };
 const mutations = {
     setUser(state, user) {
         state.user = user;
+    },
+    setUserFriendship(state, friendship) {
+        state.user.data.attributes.friendship = friendship;
     },
     setUserStatus(state, status) {
         state.userStatus = status;
@@ -94,8 +160,8 @@ const mutations = {
     setPosts(state, posts) {
         state.posts = posts;
     },
-    setPostStatus(state, status) {
-        state.postStatus = status;
+    setPostsStatus(state, status) {
+        state.postsStatus = status;
     },
     setAllPosts(state, postAlls) {
         state.postAlls = postAlls;

@@ -1,31 +1,39 @@
 import axios from "../../../plugins/axios";
 
 const state = {
-    user: null,
-    userStatus: true,
+    authUser: null,
+    authStatus: null,
 };
 
 const getters = {
     authUser: state => {
-        return state;
+        return state.authUser;
+    },
+    authStatus: state => {
+        return state.authStatus;
     }
 };
 
 const actions = {
     async fetchAuthUser({commit, state}) {
+        commit('setAuthStatus', 'loading')
         try {
             const { data } = await axios.get('/api/auth-user');
             commit('setAuthUser', data);
+            commit('setAuthStatus', 'success')
         } catch (err) {
+            commit('setAuthStatus', 'error')
             console.log('Unable to fetch auth user');
         }
     }
 };
 const mutations = {
-    setAuthUser(state, user) {
-        state.user = user;
-        state.userStatus = false;
-    }
+    setAuthUser(state, authuser) {
+        state.authUser = authuser;
+    },
+    setAuthStatus(state, status) {
+        state.authStatus = status;
+    },
 };
 
 export default {

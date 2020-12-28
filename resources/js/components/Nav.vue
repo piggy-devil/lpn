@@ -1,5 +1,5 @@
 <template>
-    <div
+    <div v-if="authStatus === 'success'"
         class="bg-white h-12 px-4 flex items-center border-b border-gray-400 shadow-sm"
     >
         <div class="w-1/3">
@@ -38,7 +38,6 @@
                 </div>
             </div>
         </div>
-        <!-- :to="'/users/' + authUser.data.user_id" -->
         <div class="w-1/3 flex justify-center items-center h-full">
             <router-link
                 to="/"
@@ -54,10 +53,9 @@
                     />
                 </svg>
             </router-link>
-            <router-link v-if="authUser.userStatus" to="/"></router-link>
+            <!-- <router-link v-if="authUser.userStatus" to="/"></router-link> -->
             <router-link
-                v-else
-                :to="'/users/' + authUser.user.data.user_id"
+                :to="'/users/' + authUser.data.user_id"
                 class="px-6 border-b-2 border-white h-full flex items-center"
             >
                 <img
@@ -107,8 +105,11 @@ export default {
         const authUser = computed( function() {
             return store.getters.authUser;
         });
+        const authStatus = computed( function() {
+            return store.getters.authStatus;
+        });
 
-        return { authUser };
+        return { authUser, authStatus };
     },
 };
 </script>

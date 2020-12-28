@@ -18,7 +18,7 @@ class Friend extends Model
                 return $query->where('user_id', auth()->user()->id)
                     ->where('friend_id', $userId);
             })
-            ->orwhere(function($query) use ($userId) {
+            ->orWhere(function($query) use ($userId) {
                 return $query->where('friend_id', auth()->user()->id)
                     ->where('user_id', $userId);
             })

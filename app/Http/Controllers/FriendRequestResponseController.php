@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\FriendRequestNotFoundException;
-use App\Http\Resources\Friend as ResourcesFriend;
 use App\Models\Friend;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use App\Http\Resources\Friend as ResourcesFriend;
+use App\Exceptions\FriendRequestNotFoundException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FriendRequestResponseController extends Controller
 {
@@ -32,7 +33,7 @@ class FriendRequestResponseController extends Controller
         return new ResourcesFriend($friendRequest);
     }
 
-    public function destroy()
+    public function destroy(Event $event)
     {
         $data = request()->validate([
             'user_id' => 'required',
