@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function(){
     
     Route::apiResources([
         '/posts' => 'App\Http\Controllers\PostController',
+        '/posts/{post}/like' => 'App\Http\Controllers\PostLikeController',
         '/users' => 'App\Http\Controllers\UserController',
 
         '/users/{user}/posts' => 'App\Http\Controllers\UserPostController',

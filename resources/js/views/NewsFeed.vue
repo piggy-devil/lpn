@@ -5,9 +5,10 @@
         <p v-if="newsStatus === 'loading'">Loading posts...</p>
         <Post
             v-else-if="posts"
-            v-for="post in posts.data"
-            :key="post.data.post_id"
+            v-for="(post, postKey) in posts.data"
+            :key="postKey"
             :post="post"
+            :postKey="postKey"
         />
     </div>
 </template>

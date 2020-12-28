@@ -45,6 +45,14 @@ const actions = {
             commit('setPostsStatus', 'error');
         }
     },
+    async likePost({commit, state}, dat) {
+        try {
+            const { data } = await axios.post('/api/posts/'+ dat.postId + '/like');
+            commit('pushLikes', { likes: data, postKey: dat.postKey });
+        } catch (err) {
+            console.log("Unable to Like Post");
+        }
+    }
 };
 const mutations = {
     setPosts(state, posts) {
@@ -58,6 +66,9 @@ const mutations = {
     },
     pushPost(state, post) {
         state.newsPosts.data.unshift(post);
+    },
+    pushLikes(state, data) {
+        state.newsPosts.data[data.postKey].data.attributes.likes = data.likes;
     },
 };
 
