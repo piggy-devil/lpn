@@ -17217,11 +17217,12 @@ var getters = {
   //     return state.friendButtonText;
   // },
   friendButtonText: function friendButtonText(state, getters, rootState) {
-    if (getters.friendship === null) {
+    if (state.user.data.user_id === rootState.User.authUser.data.user_id) {
+      return '';
+    } else if (getters.friendship === null) {
       console.log('Add Friend');
       return 'Add Friend';
     } else if (getters.friendship.data.attributes.confirmed_at === null && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
-      // && getters.friendship.data.attributes.friend_id !== getters.friendship.data.attributes.user_id) {
       console.log('Pending Friend Request');
       return 'Pending Friend Request';
     } else if (getters.friendship.data.attributes.confirmed_at !== null) {
@@ -17310,7 +17311,7 @@ var actions = {
       }, _callee2, null, [[2, 11]]);
     }))();
   },
-  fetchPosts: function fetchPosts(_ref3, userId) {
+  fetchAllPosts: function fetchAllPosts(_ref3) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
       var commit, state, _yield$axios$get3, data;
 
@@ -17321,20 +17322,20 @@ var actions = {
               commit = _ref3.commit, state = _ref3.state;
               _context3.prev = 1;
               _context3.next = 4;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId + '/posts');
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/posts/');
 
             case 4:
               _yield$axios$get3 = _context3.sent;
               data = _yield$axios$get3.data;
-              commit('setPosts', data);
-              commit('setPostsStatus', false);
+              commit('setAllPosts', data);
+              commit('setAllPostStatus', false);
               _context3.next = 13;
               break;
 
             case 10:
               _context3.prev = 10;
               _context3.t0 = _context3["catch"](1);
-              console.log("Unable to fetch posts");
+              console.log("Unable to fetch all posts");
 
             case 13:
             case "end":
@@ -17344,43 +17345,56 @@ var actions = {
       }, _callee3, null, [[1, 10]]);
     }))();
   },
-  fetchAllPosts: function fetchAllPosts(_ref4) {
+  sendFriendRequest: function sendFriendRequest(_ref4, friendId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit, state, _yield$axios$get4, data;
+      var commit, getters, _yield$axios$post, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              commit = _ref4.commit, state = _ref4.state;
-              _context4.prev = 1;
-              _context4.next = 4;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/posts/');
+              commit = _ref4.commit, getters = _ref4.getters;
 
-            case 4:
-              _yield$axios$get4 = _context4.sent;
-              data = _yield$axios$get4.data;
-              commit('setAllPosts', data);
-              commit('setAllPostStatus', false);
-              _context4.next = 13;
+              if (!(getters.friendButtonText !== 'Add Friend')) {
+                _context4.next = 3;
+                break;
+              }
+
+              return _context4.abrupt("return");
+
+            case 3:
+              _context4.prev = 3;
+              _context4.next = 6;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request', {
+                'friend_id': friendId
+              });
+
+            case 6:
+              _yield$axios$post = _context4.sent;
+              data = _yield$axios$post.data;
+              console.log(data, 'sendFriendRequest');
+              _context4.next = 11;
+              return commit('setUserFriendship', data);
+
+            case 11:
+              _context4.next = 15;
               break;
 
-            case 10:
-              _context4.prev = 10;
-              _context4.t0 = _context4["catch"](1);
-              console.log("Unable to fetch all posts");
-
             case 13:
+              _context4.prev = 13;
+              _context4.t0 = _context4["catch"](3);
+
+            case 15:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[1, 10]]);
+      }, _callee4, null, [[3, 13]]);
     }))();
   },
-  sendFriendRequest: function sendFriendRequest(_ref5, friendId) {
+  acceptFriendRequest: function acceptFriendRequest(_ref5, userId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-      var commit, state, _yield$axios$post, data;
+      var commit, state, _yield$axios$post2, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
@@ -17389,85 +17403,47 @@ var actions = {
               commit = _ref5.commit, state = _ref5.state;
               _context5.prev = 1;
               _context5.next = 4;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request', {
-                'friend_id': friendId
-              });
-
-            case 4:
-              _yield$axios$post = _context5.sent;
-              data = _yield$axios$post.data;
-              console.log(data, 'sendFriendRequest');
-              _context5.next = 9;
-              return commit('setUserFriendship', data);
-
-            case 9:
-              _context5.next = 13;
-              break;
-
-            case 11:
-              _context5.prev = 11;
-              _context5.t0 = _context5["catch"](1);
-
-            case 13:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5, null, [[1, 11]]);
-    }))();
-  },
-  acceptFriendRequest: function acceptFriendRequest(_ref6, userId) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-      var commit, state, _yield$axios$post2, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              commit = _ref6.commit, state = _ref6.state;
-              _context6.prev = 1;
-              _context6.next = 4;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request-response', {
                 'user_id': userId,
                 'status': 1
               });
 
             case 4:
-              _yield$axios$post2 = _context6.sent;
+              _yield$axios$post2 = _context5.sent;
               data = _yield$axios$post2.data;
-              _context6.next = 8;
+              _context5.next = 8;
               return commit('setUserFriendship', data);
 
             case 8:
-              _context6.next = 14;
+              _context5.next = 14;
               break;
 
             case 10:
-              _context6.prev = 10;
-              _context6.t0 = _context6["catch"](1);
-              _context6.next = 14;
+              _context5.prev = 10;
+              _context5.t0 = _context5["catch"](1);
+              _context5.next = 14;
               return commit('setButtonText', 'Add Friend');
 
             case 14:
             case "end":
-              return _context6.stop();
+              return _context5.stop();
           }
         }
-      }, _callee6, null, [[1, 10]]);
+      }, _callee5, null, [[1, 10]]);
     }))();
   },
-  ignoreFriendRequest: function ignoreFriendRequest(_ref7, userId) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+  ignoreFriendRequest: function ignoreFriendRequest(_ref6, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
       var commit, state;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              commit = _ref7.commit, state = _ref7.state;
+              commit = _ref6.commit, state = _ref6.state;
               // await commit('setButtonText', 'Loading');
               console.log(userId, 'userId');
-              _context7.prev = 2;
-              _context7.next = 5;
+              _context6.prev = 2;
+              _context6.next = 5;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.delete('/api/friend-request-response/delete', {
                 data: {
                   'user_id': userId
@@ -17475,23 +17451,23 @@ var actions = {
               });
 
             case 5:
-              _context7.next = 7;
+              _context6.next = 7;
               return commit('setUserFriendship', null);
 
             case 7:
-              _context7.next = 11;
+              _context6.next = 11;
               break;
 
             case 9:
-              _context7.prev = 9;
-              _context7.t0 = _context7["catch"](2);
+              _context6.prev = 9;
+              _context6.t0 = _context6["catch"](2);
 
             case 11:
             case "end":
-              return _context7.stop();
+              return _context6.stop();
           }
         }
-      }, _callee7, null, [[2, 9]]);
+      }, _callee6, null, [[2, 9]]);
     }))();
   } // async setFriendButton({commit, getters}, userId) {
   //     if (getters.friendship === null) {

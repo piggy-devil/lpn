@@ -39,12 +39,13 @@ const getters = {
     //     return state.friendButtonText;
     // },
     friendButtonText: (state, getters, rootState) => {
-        if (getters.friendship === null) {
+        if (state.user.data.user_id === rootState.User.authUser.data.user_id) {
+            return '';
+        } else if (getters.friendship === null) {
             console.log('Add Friend');
             return 'Add Friend';
         } else if (getters.friendship.data.attributes.confirmed_at === null
             && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
-            // && getters.friendship.data.attributes.friend_id !== getters.friendship.data.attributes.user_id) {
                 console.log('Pending Friend Request');
             return 'Pending Friend Request'
         } else if (getters.friendship.data.attributes.confirmed_at !== null) {
@@ -84,15 +85,6 @@ const actions = {
             commit('setPostsStatus', 'error');
         }
     },
-    async fetchPosts({commit, state}, userId) {
-        try {
-            const { data } = await axios.get('/api/users/' + userId + '/posts');
-            commit('setPosts', data);
-            commit('setPostsStatus', false);
-        } catch (err) {
-            console.log("Unable to fetch posts");
-        }
-    },
     async fetchAllPosts({commit, state}) {
         try {
             const { data } = await axios.get('/api/posts/');
@@ -102,9 +94,11 @@ const actions = {
             console.log("Unable to fetch all posts");
         }
     },
-    async sendFriendRequest({commit, state}, friendId) {
+    async sendFriendRequest({commit, getters}, friendId) {
         // await commit('setButtonText', 'Loading');
-
+        if (getters.friendButtonText !== 'Add Friend') {
+            return;
+        }
         try {
             const { data } = await axios.post('/api/friend-request', { 'friend_id': friendId })
             console.log(data, 'sendFriendRequest');
