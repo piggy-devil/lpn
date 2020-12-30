@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <img
             :src="userImage.data.attributes.path"
             :alt="alt"
@@ -12,10 +12,27 @@
 <script>
 import Dropzone from "dropzone";
 import { mapGetters } from "vuex";
-// import { ref, onMounted, computed } from 'vue';
+import { useDropzone } from "vue3-dropzone";
+import { reactive } from "vue";
 
 export default {
     name: "UploadableImage",
+
+    setup() {
+        const options = reactive({
+            multiple: true,
+            accept: ".jpg",
+        });
+
+        const { getRootProps, getInputProps, ...rest } = useDropzone(options);
+
+        return {
+            options,
+            getRootProps,
+            getInputProps,
+            ...rest,
+        };
+    },
 
     data() {
         return {
@@ -33,9 +50,9 @@ export default {
     ],
 
     mounted() {
-        // if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
-        //     }
+        if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
             this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
+        }
     },
 
     computed: {

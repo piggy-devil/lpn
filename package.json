@@ -29,6 +29,7 @@
         "vuex": "^4.0.0-rc.2"
     },
     "dependencies": {
-        "dropzone": "^5.7.2"
+        "dropzone": "^5.7.2",
+        "vue3-dropzone": "0.0.4"
     }
 }
