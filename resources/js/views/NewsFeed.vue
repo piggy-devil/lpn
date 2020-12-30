@@ -43,9 +43,6 @@ export default {
             return store.getters.authUser;
         });
 
-        console.log(authUser, 'authUser');
-
-
         onMounted(async () => {
             await store.dispatch("fetchNewsPosts");
         });

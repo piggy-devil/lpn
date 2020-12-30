@@ -24,7 +24,7 @@
                 <p>{{ post.data.attributes.body }}</p>
             </div>
         </div>
-        <div class="w-full" v-if="post.data.attributes.image">
+        <div class="w-full" v-if="post.data.attributes.image.length">
             <img
                 :src="post.data.attributes.image"
                 alt="post image"
@@ -111,8 +111,8 @@
 
         <div
             class="flex my-4 items-center"
-            v-for="comment in post.data.attributes.comments.data"
-            :key="comment.data.comment_id"
+            v-for="(comment, index) in post.data.attributes.comments.data"
+            :key="index"
         >
             <div class="w-8">
                 <img
