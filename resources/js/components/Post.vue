@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded shadow w-2/3 mt-6 overflow-hidden">
+    <div ref="root" class="bg-white rounded shadow w-2/3 mt-6 overflow-hidden">
         <div class="flex flex-col p-4">
             <div class="flex items-center">
                 <div class="w-8">
@@ -45,14 +45,23 @@
                 <p>{{ post.data.attributes.likes.like_count }} likes</p>
             </div>
             <div>
-                <p>123 commend</p>
+                <p>{{ post.data.attributes.comments.comment_count }} comment</p>
             </div>
         </div>
         <div class="flex justify-between border-1 border-gray-400 m-4">
             <button
                 class="flex justify-center py-2 rounded-lg text-sm w-full focus:outline-none"
-                    :class="[post.data.attributes.likes.user_likes_post ? 'bg-blue-600 text-white' : '']"
-                    @click="store.dispatch('likePost', { postId: post.data.post_id, postKey: postKey })"
+                :class="[
+                    post.data.attributes.likes.user_likes_post
+                        ? 'bg-blue-600 text-white'
+                        : '',
+                ]"
+                @click="
+                    store.dispatch('likePost', {
+                        postId: post.data.post_id,
+                        postKey: postKey,
+                    })
+                "
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +76,7 @@
             </button>
             <button
                 class="flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none"
+                @click="comments = !comments"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -80,25 +90,71 @@
                 <p class="ml-2">Comment</p>
             </button>
         </div>
+        <div v-if="comments" class="border-t border-gray-400 p-4 pt-2">
+            <div class="flex">
+                <input
+                    type="text"
+                    v-model="commentBody"
+                    name="comment"
+                    class="w-full pl-4 h-8 bg-gray-200 rounded-lg focus:outline-none"
+                    placeholder="Write your comment"
+                />
+                <button
+                    v-if="commentBody"
+                    class="bg-gray-200 ml-2 px-2 py-1 rounded-lg focus:outline-none"
+                    @click="store.dispatch('commentPost', { body: commentBody, postId: post.data.post_id, postKey: postKey}); commentBody = ''"
+                >
+                    Post
+                </button>
+            </div>
+        
+
+        <div
+            class="flex my-4 items-center"
+            v-for="comment in post.data.attributes.comments.data"
+            :key="comment.data.comment_id"
+        >
+            <div class="w-8">
+                <img
+                    src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                    alt="profile image for user"
+                    class="w-8 h-8 object-cover rounded-full"
+                />
+            </div>
+            <div class="ml-4 flex-1">
+                <div class="bg-gray-200 rounded-lg p-2 text-sm">
+                    <a class="font-bold text-blue-700" :href="'/users/' + comment.data.attributes.commented_by.data.user_id">
+                        {{ comment.data.attributes.commented_by.data.attributes.name }}
+                    </a>
+                    <p class="inline ml-1">
+                        {{ comment.data.attributes.body }}
+                    </p>
+                </div>
+                <div class="text-xs pl-2">
+                    <p>{{ comment.data.attributes.commented_at }}</p>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
+import { ref } from "vue";
 
 export default {
     name: "Post",
 
-    props: [
-        'post',
-        'postKey',
-    ],
+    props: ["post", "postKey"],
 
-    setup(props, { emit, attrs, slots }) {
+    setup() {
         const store = useStore();
+        const comments = ref(false);
+        const commentBody = ref("");
 
-        return { store }
-    }
+        return { store, comments, commentBody };
+    },
 };
 </script>
 

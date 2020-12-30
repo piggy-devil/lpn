@@ -17,7 +17,7 @@
 import NewPost from "../components/NewPost";
 import Post from "../components/Post";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useStore, mapGetters } from "vuex";
 import { onMounted, computed } from "vue";
 
 export default {
@@ -32,8 +32,9 @@ export default {
         const store = useStore();
 
         const posts = computed(() => {
-            return store.getters.newsPosts;
+            return store.getters.posts;
         });
+
         const newsStatus = computed(() => {
             return store.getters.newsStatus;
         });

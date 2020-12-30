@@ -53,7 +53,6 @@
                     />
                 </svg>
             </router-link>
-            <!-- <router-link v-if="authUser.userStatus" to="/"></router-link> -->
             <router-link
                 :to="'/users/' + authUser.data.user_id"
                 class="px-6 border-b-2 border-white h-full flex items-center"

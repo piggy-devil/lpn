@@ -1,5 +1,5 @@
 <template>
-    <div v-if="status.user === 'success' && user" class="flex flex-col items-center">
+    <div v-if="userStatus === 'success' && user" class="flex flex-col items-center">
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden">
                 <img
@@ -18,7 +18,6 @@
                         class="object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg"
                     />
                 </div>
-                <!-- <p v-if="userStatus">Loading posts...</p> -->
                 <p class="text-2xl text-gray-100 ml-4">
                     {{ user.data.attributes.name }}
                 </p>
@@ -56,13 +55,14 @@
                 </button>
             </div>
         </div>
-        <div v-if="status.posts === 'loading'">Loading posts...</div>
+        <p v-if="postsStatus === 'loading'">Loading posts...</p>
         <div v-else-if="posts && posts.length < 1">No posts found. Get Started...</div>
         <Post
             v-else-if="posts"
-            v-for="post in posts.data"
-            :key="post.data.post_id"
+            v-for="(post, postKey) in posts.data"
+            :key="postKey"
             :post="post"
+            :postKey="postKey"
         />
     </div>
 </template>
@@ -84,18 +84,17 @@ export default {
         const user = computed(() => {
             return store.getters.user;
         });
-        // const userStatus = computed(() => {
-        //     return store.getters.userStatus;
-        // });
 
         const posts = computed(() => {
             return store.getters.posts;
         });
-        // const postStatus = computed(() => {
-        //     return store.getters.postStatus;
-        // });
-        const status = computed(() => {
-            return store.getters.status;
+
+        const userStatus = computed(() => {
+            return store.getters.status.user;
+        });
+
+        const postsStatus = computed(() => {
+            return store.getters.newsStatus;
         });
 
         const friendButtonText = computed(() => {
@@ -105,17 +104,13 @@ export default {
         onMounted(async () => {
             await store.dispatch("fetchUser", route.params.userId);
             await store.dispatch("fetchUserPosts", route.params.userId);
-            // if(store.getters.userStatus) {
-            //     await store.dispatch("fetchPosts", route.params.userId);
-            // }
         });
 
         return {
             user,
-            // userStatus,
             posts,
-            // postStatus,
-            status,
+            userStatus,
+            postsStatus,
             store,
             route,
             friendButtonText,

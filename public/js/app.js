@@ -16403,18 +16403,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Post",
-  props: ['post', 'postKey'],
-  setup: function setup(props, _ref) {
-    var emit = _ref.emit,
-        attrs = _ref.attrs,
-        slots = _ref.slots;
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.useStore)();
+  props: ["post", "postKey"],
+  setup: function setup() {
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.useStore)();
+    var comments = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var commentBody = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)("");
     return {
-      store: store
+      store: store,
+      comments: comments,
+      commentBody: commentBody
     };
   }
 });
@@ -16477,7 +16480,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var route = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRoute)();
     var store = (0,vuex__WEBPACK_IMPORTED_MODULE_5__.useStore)();
     var posts = (0,vue__WEBPACK_IMPORTED_MODULE_3__.computed)(function () {
-      return store.getters.newsPosts;
+      return store.getters.posts;
     });
     var newsStatus = (0,vue__WEBPACK_IMPORTED_MODULE_3__.computed)(function () {
       return store.getters.newsStatus;
@@ -16542,18 +16545,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var store = (0,vuex__WEBPACK_IMPORTED_MODULE_4__.useStore)();
     var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.getters.user;
-    }); // const userStatus = computed(() => {
-    //     return store.getters.userStatus;
-    // });
-
+    });
     var posts = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.getters.posts;
-    }); // const postStatus = computed(() => {
-    //     return store.getters.postStatus;
-    // });
-
-    var status = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      return store.getters.status;
+    });
+    var userStatus = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.status.user;
+    });
+    var postsStatus = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return store.getters.newsStatus;
     });
     var friendButtonText = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.getters.friendButtonText;
@@ -16579,10 +16579,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     })));
     return {
       user: user,
-      // userStatus,
       posts: posts,
-      // postStatus,
-      status: status,
+      userStatus: userStatus,
+      postsStatus: postsStatus,
       store: store,
       route: route,
       friendButtonText: friendButtonText
@@ -16749,7 +16748,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <router-link v-if=\"authUser.userStatus\" to=\"/\"></router-link> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: '/users/' + $setup.authUser.data.user_id,
     "class": "px-6 border-b-2 border-white h-full flex items-center"
   }, {
@@ -16874,6 +16873,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  ref: "root",
   "class": "bg-white rounded shadow w-2/3 mt-6 overflow-hidden"
 };
 var _hoisted_2 = {
@@ -16926,15 +16926,11 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "123 commend")], -1
-/* HOISTED */
-);
-
-var _hoisted_14 = {
+var _hoisted_13 = {
   "class": "flex justify-between border-1 border-gray-400 m-4"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
   "class": "fill-current w-5 h-5"
@@ -16944,26 +16940,58 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "ml-2"
 }, "Like", -1
 /* HOISTED */
 );
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  "class": "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
   "class": "fill-current w-5 h-5"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("path", {
   d: "M20.3 2H3.7C2 2 .6 3.4.6 5.2v10.1c0 1.7 1.4 3.1 3.1 3.1V23l6.6-4.6h9.9c1.7 0 3.1-1.4 3.1-3.1V5.2c.1-1.8-1.3-3.2-3-3.2zm1.8 13.3c0 1-.8 1.8-1.8 1.8H9.9L5 20.4V17H3.7c-1 0-1.8-.8-1.8-1.8v-10c0-1 .8-1.8 1.8-1.8h16.5c1 0 1.8.8 1.8 1.8v10.1zM6.7 6.7h10.6V8H6.7V6.7zm0 2.9h10.6v1.3H6.7V9.6zm0 2.8h10.6v1.3H6.7v-1.3z"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "ml-2"
-}, "Comment")], -1
+})], -1
 /* HOISTED */
 );
 
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ml-2"
+}, "Comment", -1
+/* HOISTED */
+);
+
+var _hoisted_18 = {
+  key: 1,
+  "class": "border-t border-gray-400 p-4 pt-2"
+};
+var _hoisted_19 = {
+  "class": "flex"
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "w-8"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  src: "https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg",
+  alt: "profile image for user",
+  "class": "w-8 h-8 object-cover rounded-full"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_21 = {
+  "class": "ml-4 flex-1"
+};
+var _hoisted_22 = {
+  "class": "bg-gray-200 rounded-lg p-2 text-sm"
+};
+var _hoisted_23 = {
+  "class": "inline ml-1"
+};
+var _hoisted_24 = {
+  "class": "text-xs pl-2"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.post.data.attributes.posted_by.data.attributes.name), 1
   /* TEXT */
@@ -16979,7 +17007,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.post.data.attributes.likes.like_count) + " likes", 1
   /* TEXT */
-  )]), _hoisted_13]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.post.data.attributes.comments.comment_count) + " comment", 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     "class": ["flex justify-center py-2 rounded-lg text-sm w-full focus:outline-none", [$props.post.data.attributes.likes.user_likes_post ? 'bg-blue-600 text-white' : '']],
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.store.dispatch('likePost', {
@@ -16987,9 +17017,53 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         postKey: $props.postKey
       });
     })
-  }, [_hoisted_15, _hoisted_16], 2
+  }, [_hoisted_14, _hoisted_15], 2
   /* CLASS */
-  ), _hoisted_17])]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    "class": "flex justify-center py-2 rounded-lg text-sm text-gray-700 w-full focus:outline-none",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $setup.comments = !$setup.comments;
+    })
+  }, [_hoisted_16, _hoisted_17])]), $setup.comments ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "text",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $setup.commentBody = $event;
+    }),
+    name: "comment",
+    "class": "w-full pl-4 h-8 bg-gray-200 rounded-lg focus:outline-none",
+    placeholder: "Write your comment"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.commentBody]]), $setup.commentBody ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+    key: 0,
+    "class": "bg-gray-200 ml-2 px-2 py-1 rounded-lg focus:outline-none",
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      $setup.store.dispatch('commentPost', {
+        body: $setup.commentBody,
+        postId: $props.post.data.post_id,
+        postKey: $props.postKey
+      });
+      $setup.commentBody = '';
+    })
+  }, " Post ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.post.data.attributes.comments.data, function (comment) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+      "class": "flex my-4 items-center",
+      key: comment.data.comment_id
+    }, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+      "class": "font-bold text-blue-700",
+      href: '/users/' + comment.data.attributes.commented_by.data.user_id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.data.attributes.commented_by.data.attributes.name), 9
+    /* TEXT, PROPS */
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.data.attributes.body), 1
+    /* TEXT */
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(comment.data.attributes.commented_at), 1
+    /* TEXT */
+    )])])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512
+  /* NEED_PATCH */
+  );
 }
 
 /***/ }),
@@ -17125,7 +17199,7 @@ var _hoisted_9 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
-  return $setup.status.user === 'success' && $setup.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p v-if=\"userStatus\">Loading posts...</p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.data.attributes.name), 1
+  return $setup.userStatus === 'success' && $setup.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.data.attributes.name), 1
   /* TEXT */
   )]), $setup.friendButtonText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_7, [$setup.friendButtonText !== 'Accept' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     key: 0,
@@ -17147,15 +17221,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $setup.store.dispatch('ignoreFriendRequest', $setup.route.params.userId);
     })
-  }, " Ignore ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.status.posts === 'loading' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_8, "Loading posts...")) : $setup.posts && $setup.posts.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_9, "No posts found. Get Started...")) : $setup.posts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, " Ignore ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.postsStatus === 'loading' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_8, "Loading posts...")) : $setup.posts && $setup.posts.length < 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_9, "No posts found. Get Started...")) : $setup.posts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.posts.data, function (post) {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.posts.data, function (post, postKey) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Post, {
-      key: post.data.post_id,
-      post: post
+      key: postKey,
+      post: post,
+      postKey: postKey
     }, null, 8
     /* PROPS */
-    , ["post"]);
+    , ["post", "postKey"]);
   }), 128
   /* KEYED_FRAGMENT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
@@ -17261,19 +17336,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  newsPosts: null,
-  newsPostsStatus: null,
+  posts: null,
+  postsStatus: null,
   postMessage: ''
 };
 var getters = {
-  newsPosts: function newsPosts(state) {
-    return state.newsPosts;
+  posts: function posts(state) {
+    return state.posts;
   },
   newsStatus: function newsStatus(state) {
     // return { 
-    //     newsPostsStatus: state.newsPostsStatus,
+    //     postsStatus: state.postsStatus,
     // }
-    return state.newsPostsStatus;
+    return state.postsStatus;
   },
   postMessage: function postMessage(state) {
     return state.postMessage;
@@ -17307,210 +17382,6 @@ var actions = {
               _context.t0 = _context["catch"](2);
               console.log("Unable to fetch news posts");
               commit('setPostsStatus', 'error');
-
-            case 15:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[2, 11]]);
-    }))();
-  },
-  postMessage: function postMessage(_ref2) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var commit, state, _yield$axios$post, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              commit = _ref2.commit, state = _ref2.state;
-              commit('setPostsStatus', 'loading');
-              _context2.prev = 2;
-              _context2.next = 5;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/posts', {
-                body: state.postMessage
-              });
-
-            case 5:
-              _yield$axios$post = _context2.sent;
-              data = _yield$axios$post.data;
-              commit('pushPost', data);
-              commit('updateMessage', '');
-              commit('setPostsStatus', 'success');
-              _context2.next = 16;
-              break;
-
-            case 12:
-              _context2.prev = 12;
-              _context2.t0 = _context2["catch"](2);
-              console.log("Unable to postMessage");
-              commit('setPostsStatus', 'error');
-
-            case 16:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, null, [[2, 12]]);
-    }))();
-  },
-  likePost: function likePost(_ref3, dat) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, state, _yield$axios$post2, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              commit = _ref3.commit, state = _ref3.state;
-              _context3.prev = 1;
-              _context3.next = 4;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/posts/' + dat.postId + '/like');
-
-            case 4:
-              _yield$axios$post2 = _context3.sent;
-              data = _yield$axios$post2.data;
-              commit('pushLikes', {
-                likes: data,
-                postKey: dat.postKey
-              });
-              _context3.next = 12;
-              break;
-
-            case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](1);
-              console.log("Unable to Like Post");
-
-            case 12:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3, null, [[1, 9]]);
-    }))();
-  }
-};
-var mutations = {
-  setPosts: function setPosts(state, posts) {
-    state.newsPosts = posts;
-  },
-  setPostsStatus: function setPostsStatus(state, status) {
-    state.newsPostsStatus = status;
-  },
-  updateMessage: function updateMessage(state, message) {
-    state.postMessage = message;
-  },
-  pushPost: function pushPost(state, post) {
-    state.newsPosts.data.unshift(post);
-  },
-  pushLikes: function pushLikes(state, data) {
-    state.newsPosts.data[data.postKey].data.attributes.likes = data.likes;
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  state: state,
-  getters: getters,
-  actions: actions,
-  mutations: mutations
-});
-
-/***/ }),
-
-/***/ "./resources/js/components/store/modules/profile.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/store/modules/profile.js ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/axios */ "./resources/js/plugins/axios.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-var state = {
-  user: null,
-  userStatus: null,
-  posts: null,
-  postsStatus: null
-};
-var getters = {
-  user: function user(state) {
-    return state.user;
-  },
-  posts: function posts(state) {
-    return state.posts;
-  },
-  status: function status(state) {
-    return {
-      user: state.userStatus,
-      posts: state.postsStatus
-    };
-  },
-  // friendButtonText: state => {
-  //     return state.friendButtonText;
-  // },
-  friendButtonText: function friendButtonText(state, getters, rootState) {
-    if (state.user.data.user_id === rootState.User.authUser.data.user_id) {
-      return '';
-    } else if (getters.friendship === null) {
-      console.log('Add Friend');
-      return 'Add Friend';
-    } else if (getters.friendship.data.attributes.confirmed_at === null && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
-      console.log('Pending Friend Request');
-      return 'Pending Friend Request';
-    } else if (getters.friendship.data.attributes.confirmed_at !== null) {
-      console.log('null');
-      return 'Friended';
-    }
-
-    console.log('Accept');
-    return 'Accept';
-  },
-  friendship: function friendship(state) {
-    return state.user.data.attributes.friendship;
-  }
-};
-var actions = {
-  fetchUser: function fetchUser(_ref, userId) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, dispatch, _yield$axios$get, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              commit = _ref.commit, dispatch = _ref.dispatch;
-              commit('setUserStatus', 'loading');
-              _context.prev = 2;
-              _context.next = 5;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId);
-
-            case 5:
-              _yield$axios$get = _context.sent;
-              data = _yield$axios$get.data;
-              commit('setUser', data);
-              commit('setUserStatus', 'success'); // dispatch('setFriendButton', userId)
-
-              _context.next = 15;
-              break;
-
-            case 11:
-              _context.prev = 11;
-              _context.t0 = _context["catch"](2);
-              console.log("Unable to fetch user");
-              commit('setUserStatus', 'error');
 
             case 15:
             case "end":
@@ -17556,54 +17427,46 @@ var actions = {
       }, _callee2, null, [[2, 11]]);
     }))();
   },
-  sendFriendRequest: function sendFriendRequest(_ref3, friendId) {
+  postMessage: function postMessage(_ref3) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, getters, _yield$axios$post, data;
+      var commit, state, _yield$axios$post, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref3.commit, getters = _ref3.getters;
-
-              if (!(getters.friendButtonText !== 'Add Friend')) {
-                _context3.next = 3;
-                break;
-              }
-
-              return _context3.abrupt("return");
-
-            case 3:
-              _context3.prev = 3;
-              _context3.next = 6;
-              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request', {
-                'friend_id': friendId
+              commit = _ref3.commit, state = _ref3.state;
+              commit('setPostsStatus', 'loading');
+              _context3.prev = 2;
+              _context3.next = 5;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/posts', {
+                body: state.postMessage
               });
 
-            case 6:
+            case 5:
               _yield$axios$post = _context3.sent;
               data = _yield$axios$post.data;
-              console.log(data, 'sendFriendRequest');
-              _context3.next = 11;
-              return commit('setUserFriendship', data);
-
-            case 11:
-              _context3.next = 15;
+              commit('pushPost', data);
+              commit('updateMessage', '');
+              commit('setPostsStatus', 'success');
+              _context3.next = 16;
               break;
 
-            case 13:
-              _context3.prev = 13;
-              _context3.t0 = _context3["catch"](3);
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](2);
+              console.log("Unable to postMessage");
+              commit('setPostsStatus', 'error');
 
-            case 15:
+            case 16:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[3, 13]]);
+      }, _callee3, null, [[2, 12]]);
     }))();
   },
-  acceptFriendRequest: function acceptFriendRequest(_ref4, userId) {
+  likePost: function likePost(_ref4, dat) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
       var commit, state, _yield$axios$post2, data;
 
@@ -17614,83 +17477,312 @@ var actions = {
               commit = _ref4.commit, state = _ref4.state;
               _context4.prev = 1;
               _context4.next = 4;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/posts/' + dat.postId + '/like');
+
+            case 4:
+              _yield$axios$post2 = _context4.sent;
+              data = _yield$axios$post2.data;
+              commit('pushLikes', {
+                likes: data,
+                postKey: dat.postKey
+              });
+              _context4.next = 12;
+              break;
+
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](1);
+              console.log("Unable to Like Post");
+
+            case 12:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[1, 9]]);
+    }))();
+  },
+  commentPost: function commentPost(_ref5, dat) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit, state, _yield$axios$post3, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit, state = _ref5.state;
+              _context5.prev = 1;
+              _context5.next = 4;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/posts/' + dat.postId + '/comment', {
+                body: dat.body
+              });
+
+            case 4:
+              _yield$axios$post3 = _context5.sent;
+              data = _yield$axios$post3.data;
+              commit('pushComments', {
+                comments: data,
+                postKey: dat.postKey
+              });
+              _context5.next = 12;
+              break;
+
+            case 9:
+              _context5.prev = 9;
+              _context5.t0 = _context5["catch"](1);
+              console.log("Unable to Comment Post");
+
+            case 12:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5, null, [[1, 9]]);
+    }))();
+  }
+};
+var mutations = {
+  setPosts: function setPosts(state, posts) {
+    state.posts = posts;
+  },
+  setPostsStatus: function setPostsStatus(state, status) {
+    state.postsStatus = status;
+  },
+  updateMessage: function updateMessage(state, message) {
+    state.postMessage = message;
+  },
+  pushPost: function pushPost(state, post) {
+    state.posts.data.unshift(post);
+  },
+  pushLikes: function pushLikes(state, data) {
+    state.posts.data[data.postKey].data.attributes.likes = data.likes;
+  },
+  pushComments: function pushComments(state, data) {
+    state.posts.data[data.postKey].data.attributes.comments = data.comments;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/store/modules/profile.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/store/modules/profile.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _plugins_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../plugins/axios */ "./resources/js/plugins/axios.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  user: null,
+  userStatus: null
+};
+var getters = {
+  user: function user(state) {
+    return state.user;
+  },
+  status: function status(state) {
+    return {
+      user: state.userStatus
+    };
+  },
+  friendship: function friendship(state) {
+    return state.user.data.attributes.friendship;
+  },
+  friendButtonText: function friendButtonText(state, getters, rootState) {
+    if (rootState.User.authUser) {
+      if (state.user.data.user_id === rootState.User.authUser.data.user_id) {
+        return '';
+      }
+    }
+
+    if (getters.friendship === null) {
+      return 'Add Friend';
+    } else if (getters.friendship.data.attributes.confirmed_at === null && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
+      return 'Pending Friend Request';
+    } else if (getters.friendship.data.attributes.confirmed_at !== null) {
+      return 'Friended';
+    }
+
+    return 'Accept';
+  }
+};
+var actions = {
+  fetchUser: function fetchUser(_ref, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, dispatch, _yield$axios$get, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit, dispatch = _ref.dispatch;
+              commit('setUserStatus', 'loading');
+              _context.prev = 2;
+              _context.next = 5;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/users/' + userId);
+
+            case 5:
+              _yield$axios$get = _context.sent;
+              data = _yield$axios$get.data;
+              commit('setUser', data);
+              commit('setUserStatus', 'success');
+              _context.next = 15;
+              break;
+
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context["catch"](2);
+              console.log("Unable to fetch user");
+              commit('setUserStatus', 'error');
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[2, 11]]);
+    }))();
+  },
+  sendFriendRequest: function sendFriendRequest(_ref2, friendId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var commit, getters, _yield$axios$post, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, getters = _ref2.getters;
+
+              if (!(getters.friendButtonText !== 'Add Friend')) {
+                _context2.next = 3;
+                break;
+              }
+
+              return _context2.abrupt("return");
+
+            case 3:
+              _context2.prev = 3;
+              _context2.next = 6;
+              return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request', {
+                'friend_id': friendId
+              });
+
+            case 6:
+              _yield$axios$post = _context2.sent;
+              data = _yield$axios$post.data;
+              console.log(data, 'sendFriendRequest');
+              _context2.next = 11;
+              return commit('setUserFriendship', data);
+
+            case 11:
+              _context2.next = 15;
+              break;
+
+            case 13:
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](3);
+
+            case 15:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[3, 13]]);
+    }))();
+  },
+  acceptFriendRequest: function acceptFriendRequest(_ref3, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit, state, _yield$axios$post2, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit, state = _ref3.state;
+              _context3.prev = 1;
+              _context3.next = 4;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/friend-request-response', {
                 'user_id': userId,
                 'status': 1
               });
 
             case 4:
-              _yield$axios$post2 = _context4.sent;
+              _yield$axios$post2 = _context3.sent;
               data = _yield$axios$post2.data;
-              _context4.next = 8;
+              _context3.next = 8;
               return commit('setUserFriendship', data);
 
             case 8:
-              _context4.next = 14;
+              _context3.next = 12;
               break;
 
             case 10:
-              _context4.prev = 10;
-              _context4.t0 = _context4["catch"](1);
-              _context4.next = 14;
-              return commit('setButtonText', 'Add Friend');
+              _context3.prev = 10;
+              _context3.t0 = _context3["catch"](1);
 
-            case 14:
+            case 12:
             case "end":
-              return _context4.stop();
+              return _context3.stop();
           }
         }
-      }, _callee4, null, [[1, 10]]);
+      }, _callee3, null, [[1, 10]]);
     }))();
   },
-  ignoreFriendRequest: function ignoreFriendRequest(_ref5, userId) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+  ignoreFriendRequest: function ignoreFriendRequest(_ref4, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
       var commit, state;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              commit = _ref5.commit, state = _ref5.state;
-              // await commit('setButtonText', 'Loading');
-              console.log(userId, 'userId');
-              _context5.prev = 2;
-              _context5.next = 5;
+              commit = _ref4.commit, state = _ref4.state;
+              _context4.prev = 1;
+              _context4.next = 4;
               return _plugins_axios__WEBPACK_IMPORTED_MODULE_1__.default.delete('/api/friend-request-response/delete', {
                 data: {
                   'user_id': userId
                 }
               });
 
-            case 5:
-              _context5.next = 7;
+            case 4:
+              _context4.next = 6;
               return commit('setUserFriendship', null);
 
-            case 7:
-              _context5.next = 11;
+            case 6:
+              _context4.next = 10;
               break;
 
-            case 9:
-              _context5.prev = 9;
-              _context5.t0 = _context5["catch"](2);
+            case 8:
+              _context4.prev = 8;
+              _context4.t0 = _context4["catch"](1);
 
-            case 11:
+            case 10:
             case "end":
-              return _context5.stop();
+              return _context4.stop();
           }
         }
-      }, _callee5, null, [[2, 9]]);
+      }, _callee4, null, [[1, 8]]);
     }))();
-  } // async setFriendButton({commit, getters}, userId) {
-  //     if (getters.friendship === null) {
-  //         await commit('setButtonText', 'Add Friend');
-  //     } else if (getters.friendship.data.attributes.confirmed_at === null 
-  //         && getters.friendship.data.attributes.friend_id !== userId) {
-  //         await commit('setButtonText', 'Pending Friend Request');
-  //     } else {
-  //         await commit('setButtonText', 'Accept');
-  //     }
-  // }
-
+  }
 };
 var mutations = {
   setUser: function setUser(state, user) {
@@ -17701,15 +17793,6 @@ var mutations = {
   },
   setUserStatus: function setUserStatus(state, status) {
     state.userStatus = status;
-  },
-  setPosts: function setPosts(state, posts) {
-    state.posts = posts;
-  },
-  setPostsStatus: function setPostsStatus(state, status) {
-    state.postsStatus = status;
-  },
-  setButtonText: function setButtonText(state, text) {
-    state.friendButtonText = text;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
