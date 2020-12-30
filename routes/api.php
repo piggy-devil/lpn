@@ -34,9 +34,11 @@ Route::middleware('auth:api')->group(function(){
         '/posts' => 'App\Http\Controllers\PostController',
         '/posts/{post}/like' => 'App\Http\Controllers\PostLikeController',
         '/posts/{post}/comment' => 'App\Http\Controllers\PostCommentController',
+        
         '/users' => 'App\Http\Controllers\UserController',
-
         '/users/{user}/posts' => 'App\Http\Controllers\UserPostController',
+        '/user-image' => 'App\Http\Controllers\UserImageController',
+
         '/friend-request' => 'App\Http\Controllers\FriendRequestController',
         '/friend-request-response' => 'App\Http\Controllers\FriendRequestResponseController',
     ]);

@@ -21,18 +21,17 @@ const getters = {
         if (rootState.User.authUser) {
             if (state.user.data.user_id === rootState.User.authUser.data.user_id) {
                 return '';
+            } else if (getters.friendship === null) {
+                return 'Add Friend';
+            } else if (getters.friendship.data.attributes.confirmed_at === null
+                && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
+                return 'Pending Friend Request'
+            } else if (getters.friendship.data.attributes.confirmed_at !== null) {
+                return 'Friended';
             }
+            return 'Accept';
         }
         
-        if (getters.friendship === null) {
-            return 'Add Friend';
-        } else if (getters.friendship.data.attributes.confirmed_at === null
-            && getters.friendship.data.attributes.friend_id !== rootState.User.authUser.data.user_id) {
-            return 'Pending Friend Request'
-        } else if (getters.friendship.data.attributes.confirmed_at !== null) {
-            return 'Friended';
-        }
-        return 'Accept';
     },
 };
 

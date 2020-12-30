@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Friend as ResourcesFriend;
+use App\Http\Resources\UserImage as ResourcesUserImage;
 use App\Models\Friend;
 
 class User extends JsonResource
@@ -22,7 +23,9 @@ class User extends JsonResource
                 'user_id' => $this->id,
                 'attributes' => [
                     'name' => $this->name,
-                    'friendship' => new ResourcesFriend(Friend::friendship($this->id))
+                    'friendship' => new ResourcesFriend(Friend::friendship($this->id)),
+                    'cover_image' => new ResourcesUserImage($this->coverImage),
+                    'profile_image' => new ResourcesUserImage($this->profileImage),
                 ]
             ],
             'links' => [
