@@ -16533,9 +16533,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
   },
   props: ["userImage", "imageWidth", "imageHeight", "location", "classes", "alt"],
   mounted: function mounted() {
-    if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
-      this.dropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_0___default())(this.$refs.userImage, this.settings);
-    }
+    // if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
+    this.dropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_0___default())(this.$refs.userImage, this.settings); // }
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)({
     authUser: "authUser"
@@ -17353,8 +17352,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Post = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Post");
 
   return $setup.userStatus === 'success' && $setup.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_UploadableImage, {
-    "image-width": "1500",
-    "image-height": "300",
+    "image-width": "1200",
+    "image-height": "500",
     alt: "user backgroud image",
     classes: "object-cover w-full",
     location: "cover",
@@ -17362,8 +17361,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["user-image"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_UploadableImage, {
-    "image-width": "1500",
-    "image-height": "300",
+    "image-width": "1750",
+    "image-height": "1750",
     alt: "profile image for user",
     classes: "object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg",
     location: "profile",

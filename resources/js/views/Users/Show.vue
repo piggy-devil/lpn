@@ -6,8 +6,8 @@
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden z-10">
                 <UploadableImage
-                    image-width="1500"
-                    image-height="300"
+                    image-width="1200"
+                    image-height="500"
                     alt="user backgroud image"
                     classes="object-cover w-full"
                     location="cover"
@@ -19,8 +19,8 @@
             >
                 <div class="w-32">
                     <UploadableImage
-                        image-width="1500"
-                        image-height="300"
+                        image-width="1750"
+                        image-height="1750"
                         alt="profile image for user"
                         classes="object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg"
                         location="profile"

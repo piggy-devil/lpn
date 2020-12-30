@@ -50,9 +50,9 @@ export default {
     ],
 
     mounted() {
-        if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
+        // if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
             this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
-        }
+        // }
     },
 
     computed: {
