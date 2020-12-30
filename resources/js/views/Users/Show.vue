@@ -8,17 +8,23 @@
                 <UploadableImage
                     image-width="1500"
                     image-height="300"
+                    alt="user backgroud image"
+                    classes="object-cover w-full"
                     location="cover"
+                    :user-image="user.data.attributes.cover_image"
                 />
             </div>
             <div
                 class="absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20"
             >
                 <div class="w-32">
-                    <img
-                        src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                    <UploadableImage
+                        image-width="1500"
+                        image-height="300"
                         alt="profile image for user"
-                        class="object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg"
+                        classes="object-cover w-32 h-32 bordor-4 border-gray-200 rounded-full shadow-lg"
+                        location="profile"
+                        :user-image="user.data.attributes.profile_image"
                     />
                 </div>
                 <p class="text-2xl text-gray-100 ml-4">
@@ -81,7 +87,7 @@
 
 <script>
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useStore, mapGetters } from "vuex";
 import { onMounted, computed } from "vue";
 import Post from "../../components/Post";
 import UploadableImage from "../../components/UploadableImage";
@@ -129,6 +135,15 @@ export default {
             route,
             friendButtonText,
         };
+    },
+    computed: {
+        ...mapGetters({
+            authUser: "authUser",
+        }),
+    },
+
+    mounted() {
+        this.$store.dispatch("fetchAuthUser");
     },
 };
 </script>

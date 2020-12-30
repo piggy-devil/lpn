@@ -17,7 +17,7 @@
 import NewPost from "../components/NewPost";
 import Post from "../components/Post";
 import { useRoute } from "vue-router";
-import { useStore, mapGetters } from "vuex";
+import { useStore } from "vuex";
 import { onMounted, computed } from "vue";
 
 export default {
@@ -39,11 +39,18 @@ export default {
             return store.getters.newsStatus;
         });
 
+        const authUser = computed( function() {
+            return store.getters.authUser;
+        });
+
+        console.log(authUser, 'authUser');
+
+
         onMounted(async () => {
             await store.dispatch("fetchNewsPosts");
         });
 
-        return { posts, newsStatus };
+        return { posts, newsStatus, authUser };
     },
 };
 </script>

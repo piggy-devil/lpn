@@ -18,8 +18,6 @@ class UserImageController extends Controller
 
         $image = $data['image']->store('user-images', 'public');
 
-        // dd($data);
-
         $userImage = auth()->user()->images()->create([
             'path' => $image,
             'width' => $data['width'],

@@ -4,7 +4,7 @@
             <div class="flex items-center">
                 <div class="w-8">
                     <img
-                        src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                        :src="post.data.attributes.posted_by.data.attributes.profile_image.data.attributes.path"
                         alt="profile image for user"
                         class="w-8 h-8 object-cover rounded-full"
                     />
@@ -116,7 +116,7 @@
         >
             <div class="w-8">
                 <img
-                    src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                    :src="comment.data.attributes.commented_by.data.attributes.profile_image.data.attributes.path"
                     alt="profile image for user"
                     class="w-8 h-8 object-cover rounded-full"
                 />

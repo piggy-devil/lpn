@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-white rounded shadow w-2/3 p-4">
+    <div v-if="store.getters.authStatus === 'success'" class="bg-white rounded shadow w-2/3 p-4">
         <div class="flex justify-between items-center">
             <div>
                 <div class="w-8">
                     <img
-                        src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                        :src="store.getters.authUser.data.attributes.profile_image.data.attributes.path"
                         alt="profile image for user"
                         class="w-8 h-8 object-cover rounded-full"
                     />
@@ -48,11 +48,12 @@
 </template>
 
 <script>
-import { computed } from "vue";
 import { useStore } from "vuex";
+import { computed } from 'vue';
 // import _ from 'lodash';
 export default {
     name: "NewPost",
+
     setup() {
         const store = useStore();
         const postMessage = computed({
@@ -64,6 +65,8 @@ export default {
             //     store.commit("updateMessage", postMessage);
             // }, 1000),
         });
+
+        
 
         return { postMessage, store };
     },

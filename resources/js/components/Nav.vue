@@ -58,7 +58,7 @@
                 class="px-6 border-b-2 border-white h-full flex items-center"
             >
                 <img
-                    src="https://image.freepik.com/free-photo/mand-holding-cup_1258-340.jpg"
+                    :src="authUser.data.attributes.profile_image.data.attributes.path"
                     alt="profile image for user"
                     class="w-8 h-8 object-cover rounded-full"
                 />

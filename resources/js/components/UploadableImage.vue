@@ -1,16 +1,17 @@
 <template>
     <div>
         <img
-            src="https://lumiere-a.akamaihd.net/v1/images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg?region=0,0,1920,1080"
-            alt="user backgroud image"
+            :src="userImage.data.attributes.path"
+            :alt="alt"
             ref="userImage"
-            class="object-cover w-full"
+            :class="classes"
         />
     </div>
 </template>
 
 <script>
 import Dropzone from "dropzone";
+import { mapGetters } from "vuex";
 // import { ref, onMounted, computed } from 'vue';
 
 export default {
@@ -22,13 +23,26 @@ export default {
         };
     },
 
-    props: ["imageWidth", "imageHeight", "location"],
+    props: [
+        "userImage",
+        "imageWidth",
+        "imageHeight",
+        "location",
+        "classes",
+        "alt",
+    ],
 
     mounted() {
-        this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
+        // if (this.authUser.data.user_id.toString() === this.$route.params.userId) {
+        //     }
+            this.dropzone = new Dropzone(this.$refs.userImage, this.settings);
     },
 
     computed: {
+        ...mapGetters({
+            authUser: "authUser",
+        }),
+
         settings() {
             return {
                 paramName: "image",
@@ -45,7 +59,15 @@ export default {
                     ).content,
                 },
                 success: (e, res) => {
-                    alert("uploaded!");
+                    this.$store.dispatch("fetchAuthUser");
+                    this.$store.dispatch(
+                        "fetchUser",
+                        this.$route.params.userId
+                    );
+                    this.$store.dispatch(
+                        "fetchUserPosts",
+                        this.$route.params.userId
+                    );
                 },
             };
         },
