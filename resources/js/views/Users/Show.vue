@@ -1,11 +1,14 @@
 <template>
-    <div v-if="userStatus === 'success' && user" class="flex flex-col items-center">
+    <div
+        v-if="userStatus === 'success' && user"
+        class="flex flex-col items-center"
+    >
         <div class="relative mb-8">
-            <div class="w-100 h-64 overflow-hidden">
-                <img
-                    src="https://lumiere-a.akamaihd.net/v1/images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg?region=0,0,1920,1080"
-                    alt="user backgroud image"
-                    class="object-cover w-full"
+            <div class="w-100 h-64 overflow-hidden z-10">
+                <UploadableImage
+                    image-width="1500"
+                    image-height="300"
+                    location="cover"
                 />
             </div>
             <div
@@ -23,7 +26,8 @@
                 </p>
             </div>
 
-            <div v-if="friendButtonText"
+            <div
+                v-if="friendButtonText"
                 class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
             >
                 <button
@@ -39,7 +43,10 @@
                     v-if="friendButtonText === 'Accept'"
                     class="mr-2 py-1 px-3 bg-blue-500 rounded"
                     @click="
-                        store.dispatch('acceptFriendRequest', route.params.userId)
+                        store.dispatch(
+                            'acceptFriendRequest',
+                            route.params.userId
+                        )
                     "
                 >
                     Accept
@@ -48,7 +55,10 @@
                     v-if="friendButtonText === 'Accept'"
                     class="py-1 px-3 bg-gray-400 rounded"
                     @click="
-                        store.dispatch('ignoreFriendRequest', route.params.userId)
+                        store.dispatch(
+                            'ignoreFriendRequest',
+                            route.params.userId
+                        )
                     "
                 >
                     Ignore
@@ -56,7 +66,9 @@
             </div>
         </div>
         <p v-if="postsStatus === 'loading'">Loading posts...</p>
-        <div v-else-if="posts && posts.length < 1">No posts found. Get Started...</div>
+        <div v-else-if="posts && posts.length < 1">
+            No posts found. Get Started...
+        </div>
         <Post
             v-else-if="posts"
             v-for="(post, postKey) in posts.data"
@@ -72,10 +84,12 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { onMounted, computed } from "vue";
 import Post from "../../components/Post";
+import UploadableImage from "../../components/UploadableImage";
 
 export default {
     components: {
         Post,
+        UploadableImage,
     },
     setup() {
         const route = useRoute();

@@ -9,5 +9,7 @@ class UserImage extends Model
 {
     use HasFactory;
 
-    protected $quarded = [];
+    protected $fillable = [
+        'path', 'width', 'height', 'location'
+    ];
 }

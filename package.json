@@ -27,5 +27,8 @@
         "vue-loader": "^16.1.2",
         "vue-router": "^4.0.1",
         "vuex": "^4.0.0-rc.2"
+    },
+    "dependencies": {
+        "dropzone": "^5.7.2"
     }
 }

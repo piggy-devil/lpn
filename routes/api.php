@@ -37,7 +37,7 @@ Route::middleware('auth:api')->group(function(){
         
         '/users' => 'App\Http\Controllers\UserController',
         '/users/{user}/posts' => 'App\Http\Controllers\UserPostController',
-        '/user-image' => 'App\Http\Controllers\UserImageController',
+        '/user-images' => 'App\Http\Controllers\UserImageController',
 
         '/friend-request' => 'App\Http\Controllers\FriendRequestController',
         '/friend-request-response' => 'App\Http\Controllers\FriendRequestResponseController',
